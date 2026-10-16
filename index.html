@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#02030a" />
   <meta name="description" content="Univers des IA : une galaxie 3D interactive pour découvrir les meilleures IA par thème (économie, mathématiques, physique) et créer vos propres galaxies." />
   <title>Univers des IA</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%20aria-hidden%3D%22true%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22lgA%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%238fb3ff%22/%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23b79bff%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f0abfc%22/%3E%3C/linearGradient%3E%3CradialGradient%20id%3D%22lgC%22%20cx%3D%22.36%22%20cy%3D%22.3%22%20r%3D%22.8%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232b3770%22/%3E%3Cstop%20offset%3D%22.6%22%20stop-color%3D%22%230d1330%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2305070f%22/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg%20transform%3D%22rotate%28-24%2032%2032%29%22%3E%3Cpath%20d%3D%22M2%2032A30%2010.5%200%200%201%2062%2032%22%20fill%3D%22none%22%20stroke%3D%22url%28%23lgA%29%22%20stroke-width%3D%222.2%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.55%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%2220%22%20fill%3D%22url%28%23lgC%29%22%20stroke%3D%22url%28%23lgA%29%22%20stroke-width%3D%221.4%22/%3E%3Cpath%20d%3D%22M32%2019.5C33.3%2027.6%2036.4%2030.7%2044.5%2032%2036.4%2033.3%2033.3%2036.4%2032%2044.5%2030.7%2036.4%2027.6%2033.3%2019.5%2032%2027.6%2030.7%2030.7%2027.6%2032%2019.5Z%22%20fill%3D%22url%28%23lgA%29%22/%3E%3Ccircle%20cx%3D%2238.5%22%20cy%3D%2225.5%22%20r%3D%221.6%22%20fill%3D%22%23fff%22%20opacity%3D%22.85%22/%3E%3Cg%20transform%3D%22rotate%28-24%2032%2032%29%22%3E%3Cpath%20d%3D%22M2%2032A30%2010.5%200%200%200%2062%2032%22%20fill%3D%22none%22%20stroke%3D%22url%28%23lgA%29%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2255%22%20cy%3D%2238.7%22%20r%3D%222.8%22%20fill%3D%22%23fff%22/%3E%3C/g%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -34,7 +35,10 @@
       overflow: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    button, input, textarea { font: inherit; color: inherit; }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    option { background: #0b0f1c; color: #eef2ff; }
+    a.btn { color: var(--text); text-decoration: none; }
+    a.btn.primary { color: #05060a; }
     button { cursor: pointer; }
     #scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
 
@@ -242,16 +246,6 @@
 
     /* ---------- Interface principale ---------- */
     .brand { position: fixed; z-index: 10; top: max(20px, env(safe-area-inset-top)); left: 24px; display: flex; align-items: center; gap: 12px; pointer-events: none; }
-    .brand i {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, #10a37f, #4c8bf5, #a78bfa, #d97757, #f5b942, #10a37f);
-      box-shadow: 0 0 22px rgba(120, 150, 255, 0.55);
-      animation: spin 9s linear infinite;
-      -webkit-mask: radial-gradient(circle, transparent 8px, #000 9px);
-      mask: radial-gradient(circle, transparent 8px, #000 9px);
-    }
     .brand b { display: block; font-family: var(--display); font-size: 17px; letter-spacing: 0.02em; }
     .brand span { display: block; margin-top: 1px; font-size: 12px; color: var(--muted); }
     .topbar { position: fixed; z-index: 10; top: max(18px, env(safe-area-inset-top)); right: 20px; display: flex; gap: 8px; }
@@ -833,8 +827,135 @@
       .g-score b { font-size: 28px; }
     }
 
+
+    /* ---------- Logo ---------- */
+    .logo { display: block; overflow: visible; }
+    .brand .logo { width: 38px; height: 38px; filter: drop-shadow(0 0 12px rgba(150, 160, 255, 0.55)); }
+    .start .logo { width: 108px; height: 108px; margin-bottom: 4px; filter: drop-shadow(0 0 30px rgba(150, 160, 255, 0.6)); animation: floaty 6s ease-in-out infinite; }
+    .logo .orbit-node { animation: nodePulse 2.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+    @keyframes nodePulse { 50% { transform: scale(1.35); } }
+    @keyframes floaty { 50% { transform: translateY(-6px); } }
+    .start .voice { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+    .start .voice .btn { padding: 7px 12px; font-size: 12.5px; color: var(--text); border-color: rgba(167, 243, 208, 0.45); }
+    .start .voice b { color: #a7f3d0; font-weight: 600; }
+    body[data-state="loading"] .sheet { z-index: 70; }
+
+    /* ---------- Radio de bord ---------- */
+    .radio {
+      position: fixed;
+      z-index: 17;
+      left: 24px;
+      bottom: calc(max(20px, env(safe-area-inset-bottom)) + 84px);
+      width: min(380px, calc(100% - 48px));
+      padding: 16px;
+      border-radius: 22px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(14px) scale(0.98);
+      transform-origin: bottom left;
+      transition: opacity 0.4s var(--ease), transform 0.5s var(--ease), visibility 0.4s;
+      --c: #f472b6;
+      --c2: #fbcfe8;
+    }
+    .radio.open { opacity: 1; visibility: visible; transform: none; }
+    body[data-state="game"] .radio, body[data-state="intro"] .radio, body[data-state="loading"] .radio { opacity: 0; visibility: hidden; }
+    body.radio-open .comms { bottom: calc(max(20px, env(safe-area-inset-bottom)) + 400px); }
+    .r-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .r-head b { display: block; font-family: var(--display); font-size: 16px; }
+    .r-head small { display: block; font-size: 11.5px; color: var(--muted); }
+    .r-head .btn { margin-left: auto; width: 34px; height: 34px; }
+    .eq { display: flex; align-items: flex-end; gap: 3px; width: 26px; height: 22px; }
+    .eq i { flex: 1; height: 30%; border-radius: 2px; background: linear-gradient(var(--c2), var(--c)); }
+    .radio.playing .eq i, .btn.playing .eq i { animation: eq 0.9s ease-in-out infinite alternate; }
+    .eq i:nth-child(2) { animation-delay: -0.3s !important; } .eq i:nth-child(3) { animation-delay: -0.6s !important; } .eq i:nth-child(4) { animation-delay: -0.15s !important; }
+    @keyframes eq { from { height: 20%; } to { height: 100%; } }
+    .r-form { display: flex; gap: 8px; }
+    .r-form input { flex: 1; min-width: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line-2); background: rgba(0, 0, 0, 0.32); outline: none; }
+    .r-form input:focus { border-color: var(--c); }
+    .r-link { margin: 8px 0 0; padding: 0; border: 0; background: none; font-size: 12px; color: var(--c2); }
+    .r-link:hover { text-decoration: underline; }
+    .r-now { margin-top: 12px; padding: 12px; border-radius: 16px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); }
+    .r-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .r-ctrl { display: flex; align-items: center; gap: 6px; margin-top: 10px; }
+    .r-ctrl .btn.icon { width: 36px; height: 36px; }
+    .r-ctrl input[type="range"] { flex: 1; min-width: 60px; accent-color: #f472b6; }
+    #rFav.on { color: #facc15; border-color: #facc15; }
+    #rFav.on svg { fill: #facc15; }
+    .r-err { margin: 10px 0 0; font-size: 12px; line-height: 1.5; color: #fda4af; }
+    .r-err .btn { margin-top: 6px; padding: 6px 10px; font-size: 12px; }
+    .r-favs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; max-height: 96px; overflow-y: auto; }
+    .r-fav { display: inline-flex; align-items: center; max-width: 100%; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255, 255, 255, 0.04); }
+    .r-fav button { padding: 5px 10px; border: 0; background: none; font-size: 12px; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .r-fav .x { padding: 5px 9px 5px 2px; color: var(--muted); }
+    .r-empty { font-size: 12px; color: var(--muted); }
+    .r-opt { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 12px; color: #c3cae0; }
+    .r-opt input { accent-color: #f472b6; }
+    .r-note { margin: 8px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--muted); }
+    #btnRadio .eq { width: 18px; height: 16px; }
+    #btnRadio .eq i:nth-child(1) { height: 45%; } #btnRadio .eq i:nth-child(2) { height: 90%; } #btnRadio .eq i:nth-child(3) { height: 60%; } #btnRadio .eq i:nth-child(4) { height: 75%; }
+    #btnRadio.playing { border-color: #f472b6; box-shadow: 0 0 20px rgba(244, 114, 182, 0.45); }
+
+    /* ---------- HUD de la campagne ---------- */
+    .g-cred { display: block; margin-top: 6px; font-size: 12px; color: #fde68a; }
+    .g-sector { margin-top: 4px; }
+    .g-sector b { display: block; font-family: var(--display); font-size: 14px; color: var(--c2); }
+    .g-sector small { display: block; max-width: 420px; margin: 2px auto 0; font-size: 11.5px; color: #c3cae0; }
+    .g-prog { width: 220px; height: 3px; margin: 8px auto 0; border-radius: 3px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+    .g-prog i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--c), var(--c2)); box-shadow: 0 0 10px var(--c); }
+    .g-boss { top: 150px; left: 0; right: 0; margin: 0 auto; width: min(520px, 80vw); text-align: center; opacity: 0; transition: opacity 0.6s; }
+    .g-boss.on { opacity: 1; }
+    .g-boss span { font-family: var(--display); font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase; color: #fca5a5; }
+    .g-boss .g-bar i { background: linear-gradient(90deg, #ff5a5a, #fb923c); box-shadow: 0 0 14px #ff5a5a; }
+    .g-shield em { font-style: normal; color: #c3cae0; letter-spacing: 0.05em; }
+    .g-ally { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; color: #c3cae0; }
+    .g-ally img { width: 22px; height: 22px; padding: 3px; border-radius: 50%; background: #0b0f1c; border: 1px solid var(--line-2); }
+    .g-tools { right: 24px; bottom: 26px; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; pointer-events: auto; max-width: 60vw; }
+    .g-tools .g-power { position: static; }
+    .g-chip { padding: 8px 12px; font-size: 12.5px; background: rgba(11, 15, 28, 0.66); }
+    #gDashBtn.ready, #gDash.ready { color: #a7f3d0; }
+    .g-card .blobs i { opacity: 0.14; }
+    .g-card .blobs i:nth-child(n+2) { opacity: 0.08; }
+    .g-station { width: min(1000px, calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; text-align: left; }
+    .st-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
+    .st-head .gk { flex-basis: 100%; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--c2); }
+    .st-head h2 { font-size: 24px; }
+    .st-cred { font-family: var(--display); font-size: 20px; color: #fde68a; }
+    .st-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+    .st-col { padding: 14px; border-radius: 18px; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); }
+    .st-col h3 { margin: 0 0 4px; font-family: var(--display); font-size: 16px; }
+    .st-note { margin: 0 0 10px !important; font-size: 12px !important; color: var(--muted) !important; line-height: 1.5; }
+    .st-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .st-up, .st-ally, .st-qopt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--line-2); background: rgba(255, 255, 255, 0.03); text-align: left; transition: border-color 0.3s, background 0.3s, transform 0.3s var(--ease); }
+    .st-up:hover:not(:disabled), .st-ally:hover, .st-qopt:hover:not(:disabled) { border-color: var(--c, #9db8ff); transform: translateY(-1px); }
+    .st-up:disabled { opacity: 0.55; cursor: default; }
+    .st-up span:first-child { flex: 1; }
+    .st-up b, .st-ally b { display: block; font-size: 13px; }
+    .st-up small, .st-ally small { display: block; font-size: 11.5px; color: var(--muted); }
+    .st-up em { font-style: normal; font-size: 12px; font-weight: 700; color: #fde68a; }
+    .pips { display: flex; gap: 3px; }
+    .pips i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); }
+    .pips i.on { background: #fde68a; box-shadow: 0 0 8px #facc15; }
+    .st-ally img, .st-qopt img { width: 26px; height: 26px; }
+    .st-ally.on { border-color: var(--c); background: color-mix(in srgb, var(--c) 18%, transparent); box-shadow: 0 0 20px color-mix(in srgb, var(--c) 35%, transparent); }
+    .st-q { margin: 0 0 10px !important; font-size: 13.5px !important; color: var(--text) !important; line-height: 1.5; }
+    .st-qopts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .st-qopt { padding: 8px 10px; font-size: 12.5px; font-weight: 600; }
+    .st-qopt.ok { border-color: #34d399; background: rgba(52, 211, 153, 0.18); }
+    .st-qopt.alt { border-color: #fbbf24; background: rgba(251, 191, 36, 0.15); }
+    .st-qopt.ko { border-color: #f87171; background: rgba(248, 113, 113, 0.15); }
+    .g-station .row { justify-content: flex-end !important; }
+    @media (max-width: 860px) {
+      .st-cols { grid-template-columns: 1fr; }
+      .radio { left: 12px; right: 12px; width: auto; bottom: calc(max(20px, env(safe-area-inset-bottom)) + 140px); }
+      .g-tools { max-width: 100%; left: 12px; right: 12px; justify-content: center; bottom: 80px; }
+      .g-shield { bottom: 20px; }
+      .g-sector small { display: none; }
+    }
+
+    .keyrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .set input[type="password"] { width: min(320px, 100%); padding: 9px 12px; border-radius: 12px; border: 1px solid var(--line-2); background: rgba(0, 0, 0, 0.35); outline: none; }
     @media (prefers-reduced-motion: reduce) {
-      .blobs i, .lux::before, .brand i, .spinner { animation: none; }
+      .blobs i, .lux::before, .logo, .spinner { animation: none; }
     }
   </style>
 </head>
@@ -843,11 +964,13 @@
 
   <div id="loader"><div class="spinner"></div><p id="loaderText">Initialisation de l'univers</p>
     <div class="start">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fb3ff"/><stop offset=".55" stop-color="#b79bff"/><stop offset="1" stop-color="#f0abfc"/></linearGradient><radialGradient id="lgC" cx=".36" cy=".3" r=".8"><stop offset="0" stop-color="#2b3770"/><stop offset=".6" stop-color="#0d1330"/><stop offset="1" stop-color="#05070f"/></radialGradient></defs><g transform="rotate(-24 32 32)"><path d="M2 32A30 10.5 0 0 1 62 32" fill="none" stroke="url(#lgA)" stroke-width="2.2" stroke-linecap="round" opacity=".55"/></g><circle cx="32" cy="32" r="20" fill="url(#lgC)" stroke="url(#lgA)" stroke-width="1.4"/><path d="M32 19.5C33.3 27.6 36.4 30.7 44.5 32 36.4 33.3 33.3 36.4 32 44.5 30.7 36.4 27.6 33.3 19.5 32 27.6 30.7 30.7 27.6 32 19.5Z" fill="url(#lgA)"/><circle cx="38.5" cy="25.5" r="1.6" fill="#fff" opacity=".85"/><g transform="rotate(-24 32 32)"><path d="M2 32A30 10.5 0 0 0 62 32" fill="none" stroke="url(#lgA)" stroke-width="2.4" stroke-linecap="round"/><circle class="orbit-node" cx="55" cy="38.7" r="2.8" fill="#fff"/></g></svg>
       <small>Bienvenue dans</small>
       <h1>UNIVERS DES IA</h1>
       <p>Explorez les meilleures intelligences artificielles, rangées par galaxies thématiques. Votre vaisseau ARGO-7 et son IA de bord vous guident, des outils pour vos études aux missions dans l'espace.</p>
       <div class="row"><button class="btn primary" id="startBtn" type="button">Entrer dans l'univers</button><button class="btn" id="startSkip" type="button">Entrer sans l'intro</button></div>
-      <span class="tip">Son et voix recommandés · Réglables à tout moment</span>
+      <div class="voice" id="voiceTip"></div>
+      <span class="tip">Son recommandé · Tout est réglable à tout moment</span>
     </div>
   </div>
 
@@ -871,12 +994,13 @@
   </div>
 
   <!-- Interface -->
-  <header class="brand" data-show="universe galaxy tour reco travel"><i></i><div><b>Univers des IA</b><span>Explorez les IA par galaxie thématique</span></div></header>
+  <header class="brand" data-show="universe galaxy tour reco travel"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8fb3ff"/><stop offset=".55" stop-color="#b79bff"/><stop offset="1" stop-color="#f0abfc"/></linearGradient><radialGradient id="lgC" cx=".36" cy=".3" r=".8"><stop offset="0" stop-color="#2b3770"/><stop offset=".6" stop-color="#0d1330"/><stop offset="1" stop-color="#05070f"/></radialGradient></defs><g transform="rotate(-24 32 32)"><path d="M2 32A30 10.5 0 0 1 62 32" fill="none" stroke="url(#lgA)" stroke-width="2.2" stroke-linecap="round" opacity=".55"/></g><circle cx="32" cy="32" r="20" fill="url(#lgC)" stroke="url(#lgA)" stroke-width="1.4"/><path d="M32 19.5C33.3 27.6 36.4 30.7 44.5 32 36.4 33.3 33.3 36.4 32 44.5 30.7 36.4 27.6 33.3 19.5 32 27.6 30.7 30.7 27.6 32 19.5Z" fill="url(#lgA)"/><circle cx="38.5" cy="25.5" r="1.6" fill="#fff" opacity=".85"/><g transform="rotate(-24 32 32)"><path d="M2 32A30 10.5 0 0 0 62 32" fill="none" stroke="url(#lgA)" stroke-width="2.4" stroke-linecap="round"/><circle class="orbit-node" cx="55" cy="38.7" r="2.8" fill="#fff"/></g></svg><div><b>Univers des IA</b><span>Explorez les IA par galaxie thématique</span></div></header>
   <div class="topbar" data-show="universe galaxy">
     <button class="btn xp" id="xpPill" type="button" title="Profil du pilote"><span class="rk" id="xpRank">C</span><div><b id="xpName">Cadet</b><small id="xpVal">0 XP</small><div class="bar"><i id="xpBar"></i></div></div></button>
     <button class="btn" id="btnTools" type="button" title="Boîte à outils étudiant (T)"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg><span class="label">Outils</span></button>
     <button class="btn" id="btnArcade" type="button" title="Arcade (J)"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="11" rx="4"/><path d="M7 10.5v4M5 12.5h4M15.5 11h.01M18 13.5h.01"/></svg><span class="label">Jeux</span></button>
     <button class="btn" id="btnCreate" type="button"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span class="label">Créer une galaxie</span></button>
+    <button class="btn icon" id="btnRadio" type="button" aria-label="Radio de bord" title="Radio de bord (M)"><span class="eq"><i></i><i></i><i></i><i></i></span></button>
     <button class="btn icon" id="btnSettings" type="button" aria-label="Réglages" title="Réglages"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     <button class="btn icon" id="btnHelp" type="button" aria-label="Aide et raccourcis" title="Aide (?)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M9.5 9.2a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2.2-2.5 3.9M12 17h.01"/></svg></button>
     <button class="btn icon" id="btnIntro" type="button" aria-label="Revoir l'intro" title="Revoir l'intro"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg></button>
@@ -959,7 +1083,7 @@
 
 
   <!-- Transmissions d'ARGO -->
-  <div class="comms glass" id="comms" aria-live="polite"><span class="ck"><i></i>ARGO</span><p id="commsText"></p></div>
+  <div class="comms glass" id="comms" aria-live="polite"><span class="ck"><i></i><span id="commsWho">ARGO</span></span><p id="commsText"></p></div>
 
   <!-- Copilote -->
   <button class="cp-fab" id="cpFab" type="button" data-show="universe galaxy" aria-label="Parler à ARGO, le copilote IA" title="ARGO · Copilote IA (C)">
@@ -1003,21 +1127,56 @@
   <!-- Défi IA -->
   <div class="quiz" id="quiz" aria-hidden="true"><div class="q-panel glass lux" id="qPanel" role="dialog" aria-modal="true"></div></div>
 
-  <!-- Mission Astéroïdes -->
+  <!-- Opération Constellation -->
   <div class="game" id="game" data-show="game">
     <div class="gh g-flash" id="gFlash"></div>
     <div class="gh g-reticle" id="gReticle"></div>
-    <div class="gh g-score"><span>Score</span><b id="gScore">0</b><span class="g-mult" id="gMult">×1</span></div>
-    <div class="gh g-time"><span>Temps</span><b id="gTime">2:00</b></div>
+    <div class="gh g-score"><span>Score</span><b id="gScore">0</b><span class="g-mult" id="gMult">×1</span><small class="g-cred" id="gCred">0 crédits</small></div>
+    <div class="gh g-time"><span id="gTimeK">Secteur</span><b id="gTime">1:10</b><div class="g-sector"><b id="gSector"></b><small id="gObj"></small><div class="g-prog"><i id="gProg"></i></div></div></div>
     <div class="gh g-right"><button class="btn" id="gPauseBtn" type="button">Pause</button></div>
-    <div class="gh g-shield" id="gShieldBox"><span>Bouclier</span><div class="g-bar"><i id="gShield"></i></div></div>
-    <div class="gh g-power" id="gPower"></div>
+    <div class="gh g-boss" id="gBossBox"><span>Croiseur Entropie</span><div class="g-bar"><i id="gBoss"></i></div></div>
+    <div class="gh g-shield" id="gShieldBox"><span>Bouclier · <em id="gShieldTxt">100 / 100</em></span><div class="g-bar"><i id="gShield"></i></div><div class="g-ally" id="gAlly"></div></div>
+    <div class="gh g-tools">
+      <div class="g-power" id="gPower"></div>
+      <button class="btn g-chip" id="gMisBtn" type="button"><svg viewBox="0 0 24 24"><path d="M5 19l5-5M14 4l6 6-8 8-6-6z"/></svg><span id="gMis">Missiles 3/3</span></button>
+      <button class="btn g-chip" id="gDashBtn" type="button"><svg viewBox="0 0 24 24"><path d="M4 12h11M11 6l6 6-6 6M19 5v14"/></svg><span id="gDash">Propulsion prête</span></button>
+    </div>
     <div class="gh g-banner" id="gBanner"></div>
-    <div class="gh g-help" id="gHelp">Souris ou WASD pour piloter · Clic ou Espace pour tirer · Échap pour la pause</div>
+    <div class="gh g-help" id="gHelp">Souris ou WASD : piloter · Clic ou Espace : tirer · Clic droit ou F : missile · E : propulsion · Échap : pause</div>
     <div id="gPops"></div>
     <div class="gh g-overlay" id="gPause"><div class="g-card glass lux"><div class="blobs"><i></i><i></i><i></i></div><h2>Pause</h2><p>Le vaisseau est en orbite stationnaire.</p><div class="row"><button class="btn primary" id="gResume" type="button">Reprendre</button><button class="btn" id="gQuit" type="button">Quitter la mission</button></div></div></div>
+    <div class="gh g-overlay" id="gStation"><div class="g-card g-station glass lux" id="gStationCard"></div></div>
     <div class="gh g-overlay" id="gEnd"><div class="g-card glass lux" id="gEndCard"></div></div>
   </div>
+
+  <!-- Radio de bord -->
+  <section class="radio glass lux" id="radio" aria-label="Radio de bord">
+    <div class="blobs"><i></i><i></i><i></i></div>
+    <div class="r-head">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <div><b>Radio de bord</b><small>Votre musique YouTube, partout dans l'univers</small></div>
+      <button class="btn icon" id="rClose" type="button" aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <form class="r-form" id="rForm">
+      <input id="rInput" type="text" autocomplete="off" placeholder="Lien YouTube, playlist… ou recherche (ex. : PLK)" />
+      <button class="btn primary" type="submit">Lire</button>
+    </form>
+    <button class="r-link" id="rSearch" type="button">Rechercher sur YouTube ↗</button>
+    <div class="r-now">
+      <div class="r-title" id="rTitle">Aucune musique en cours</div>
+      <div class="r-ctrl">
+        <button class="btn icon" id="rPrev" type="button" aria-label="Précédent"><svg viewBox="0 0 24 24"><path d="M6 5v14M18 6l-9 6 9 6z"/></svg></button>
+        <button class="btn icon primary" id="rPlay" type="button" aria-label="Lecture"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg></button>
+        <button class="btn icon" id="rNext" type="button" aria-label="Suivant"><svg viewBox="0 0 24 24"><path d="M18 5v14M6 6l9 6-9 6z"/></svg></button>
+        <button class="btn icon" id="rFav" type="button" aria-label="Ajouter aux favoris"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></button>
+        <input type="range" id="rVol" min="0" max="1" step="0.05" aria-label="Volume de la radio" />
+      </div>
+    </div>
+    <p class="r-err" id="rErr" hidden></p>
+    <div class="r-favs" id="rFavs"></div>
+    <label class="r-opt"><input type="checkbox" id="rMute" /> Couper la bande-son de l'univers pendant la radio</label>
+    <p class="r-note" id="rNote" hidden>Site ouvert en local : certaines vidéos refusent la lecture intégrée. Publiez-le (GitHub Pages) pour une compatibilité maximale.</p>
+  </section>
 
   <script type="importmap">
     {
@@ -1730,9 +1889,29 @@
     /* =====================================================================
        VAISSEAU SPATIAL ARGO-7
        ===================================================================== */
+    const HULL_TEX = (() => {
+      const c = document.createElement('canvas');
+      c.width = 1024; c.height = 512;
+      const x = c.getContext('2d');
+      const g = x.createLinearGradient(0, 0, 0, 512);
+      g.addColorStop(0, '#eef1f7'); g.addColorStop(1, '#c2cad8');
+      x.fillStyle = g; x.fillRect(0, 0, 1024, 512);
+      x.strokeStyle = 'rgba(40,48,66,0.32)'; x.lineWidth = 2;
+      for (let i = 0; i <= 16; i++) { x.beginPath(); x.moveTo(i * 64, 0); x.lineTo(i * 64, 512); x.stroke(); }
+      for (let j = 0; j <= 8; j++) { x.beginPath(); x.moveTo(0, j * 64 + (j % 2) * 10); x.lineTo(1024, j * 64 + (j % 2) * 10); x.stroke(); }
+      for (let k = 0; k < 46; k++) { x.fillStyle = `rgba(30,36,50,${rnd(0.04, 0.12)})`; x.fillRect(rnd(0, 1024), rnd(0, 512), rnd(20, 90), rnd(10, 40)); }
+      x.fillStyle = '#3b5bdb'; x.fillRect(0, 230, 1024, 18);
+      x.fillStyle = '#7aa2ff'; x.fillRect(0, 252, 1024, 6);
+      x.fillStyle = 'rgba(20,26,40,0.85)'; x.font = '700 44px Inter, system-ui, sans-serif';
+      x.fillText('ARGO-7', 600, 330); x.fillText('ARGO-7', 90, 330);
+      const tx = new THREE.CanvasTexture(c);
+      tx.colorSpace = THREE.SRGBColorSpace;
+      tx.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      return tx;
+    })();
     function makeShip() {
       const group = new THREE.Group();
-      const hull = new THREE.MeshPhysicalMaterial({ color: 0xd9e0ee, metalness: 0.85, roughness: 0.26, clearcoat: 1, clearcoatRoughness: 0.08, envMap, envMapIntensity: 1.5 });
+      const hull = new THREE.MeshPhysicalMaterial({ color: 0xffffff, map: HULL_TEX, metalness: 0.78, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.08, envMap, envMapIntensity: 1.5 });
       const dark = new THREE.MeshPhysicalMaterial({ color: 0x252c3d, metalness: 0.75, roughness: 0.38, envMap, envMapIntensity: 1.1, side: THREE.DoubleSide });
       const glass = new THREE.MeshPhysicalMaterial({ color: 0x0b1a33, metalness: 0.2, roughness: 0.05, clearcoat: 1, envMap, envMapIntensity: 2.4, emissive: 0x0a2a66, emissiveIntensity: 0.7 });
       const accent = new THREE.MeshBasicMaterial({ color: new THREE.Color('#7aa2ff').multiplyScalar(3) });
@@ -1763,6 +1942,18 @@
       fin.position.set(0, 0.45, -1.15);
       fin.rotation.x = -0.35;
       group.add(fin);
+      // Détails : canons, ailerons, prises d'air, cadre de cockpit, antenne
+      for (const side of [1, -1]) {
+        const gun = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 1.6, 12), dark); gun.rotation.x = Math.PI / 2; gun.position.set(side * 1.15, -0.12, 0.35); group.add(gun);
+        const tip = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.25, 8), accent); tip.rotation.x = Math.PI / 2; tip.position.set(side * 1.15, -0.12, 1.2); group.add(tip);
+        const wingFin = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.5, 0.7), hull); wingFin.position.set(side * 2.15, 0.22, -1.1); wingFin.rotation.z = side * 0.25; group.add(wingFin);
+        const intake = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.16, 0.6), dark); intake.position.set(side * 0.45, -0.12, 0.3); group.add(intake);
+      }
+      const frame = new THREE.Mesh(new THREE.TorusGeometry(0.31, 0.025, 8, 32), dark);
+      frame.scale.set(0.95, 1.8, 1); frame.rotation.x = Math.PI / 2 - 0.12; frame.position.set(0, 0.24, 0.75);
+      group.add(frame);
+      const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.7, 6), dark); antenna.position.set(0.12, 0.72, -1.2); antenna.rotation.x = -0.3;
+      group.add(antenna);
       const flames = [];
       const engines = [];
       for (const side of [1, -1]) {
@@ -3003,8 +3194,10 @@
     function readJSON(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v && typeof v === 'object' ? { ...d, ...v } : { ...d }; } catch { return { ...d }; } }
     function writeJSON(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* stockage indisponible */ } }
     const SETTINGS_KEY = 'univers-ia:settings:v1', PROG_KEY = 'univers-ia:progress:v1';
-    const settings = readJSON(SETTINGS_KEY, { music: 0.5, sfx: 0.8, voice: true, quality: 'high', yt: {} });
+    const settings = readJSON(SETTINGS_KEY, { music: 0.5, sfx: 0.8, voice: true, voiceVol: 1, quality: 'high', yt: {} });
     if (!settings.yt || typeof settings.yt !== 'object') settings.yt = {};
+    settings.tts = { key: '', narrator: 'Charon', argo: 'Kore', ...(settings.tts && typeof settings.tts === 'object' ? settings.tts : {}) };
+    if (typeof settings.voiceVol !== 'number') settings.voiceVol = 1;
     const PROG_DEFAULT = { xp: 0, visited: [], tours: [], ach: [], best: { shooter: 0, quiz: 0 }, prompts: 0, focus: 0, talks: 0, egg: false };
     const prog = readJSON(PROG_KEY, PROG_DEFAULT);
     prog.best = { shooter: 0, quiz: 0, ...(prog.best || {}) };
@@ -3020,13 +3213,14 @@
       { id: 'explorer', name: 'Explorateur', desc: 'Visiter les trois galaxies thématiques.' },
       { id: 'guide', name: 'Bien conseillé', desc: 'Terminer une visite guidée.' },
       { id: 'creator', name: 'Créateur de mondes', desc: 'Créer votre propre galaxie.' },
-      { id: 'ace', name: 'As du pilotage', desc: 'Atteindre 10 000 points en Mission Astéroïdes.' },
+      { id: 'ace', name: 'As du pilotage', desc: 'Atteindre 10 000 points au combat spatial.' },
       { id: 'horizon', name: 'Horizon des événements', desc: 'Frôler un trou noir et survivre.' },
       { id: 'scholar', name: 'Érudit', desc: 'Obtenir au moins 8/10 au Défi IA.' },
       { id: 'toolsmith', name: 'Maître des prompts', desc: 'Utiliser 5 prompts de la boîte à outils.' },
       { id: 'focus', name: 'Concentration', desc: 'Terminer une session Focus.' },
       { id: 'copilot', name: 'Dialogue', desc: 'Discuter avec ARGO.' },
       { id: 'hyper', name: 'Quatrième dimension', desc: 'Trouver le tesseract caché dans l’univers.' },
+      { id: 'boss', name: 'Tueur de croiseur', desc: 'Terminer l’Opération Constellation.' },
     ];
     function rankOf(xp) {
       let i = 0;
@@ -3051,7 +3245,7 @@
       Sound.xp();
       const after = rankOf(prog.xp).r;
       if (after !== before) {
-        setTimeout(() => { Sound.achievement(); toast(`Promotion : vous êtes maintenant ${after.name} !`, 'ach'); Voice.say(`Promotion ! Vous êtes maintenant ${after.name}.`); }, 700);
+        setTimeout(() => { Sound.achievement(); toast(`Promotion : vous êtes maintenant ${after.name} !`, 'ach'); Voice.say(`Promotion ! Vous êtes maintenant ${after.name}.`, { mood: 'cheer' }); }, 700);
       }
     }
     function unlock(id) {
@@ -3072,28 +3266,38 @@
       const m = s.match(/(?:youtu\.be\/|v=|embed\/|shorts\/|live\/)([\w-]{11})/) || s.match(/^([\w-]{11})$/);
       return m ? m[1] : null;
     }
+    function loadYTAPI() {
+      if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
+      if (loadYTAPI.p) return loadYTAPI.p;
+      loadYTAPI.p = new Promise((resolve, reject) => {
+        const prev = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => { if (prev) try { prev(); } catch { /* ignore */ } resolve(window.YT); };
+        const s = el('script');
+        s.src = 'https://www.youtube.com/iframe_api';
+        s.onerror = () => { loadYTAPI.p = null; reject(new Error('YouTube indisponible')); };
+        document.head.append(s);
+      });
+      return loadYTAPI.p;
+    }
     const YTMusic = (() => {
       let player = null, ready = false, wanted = null, loading = false;
       function load() {
         if (loading) return;
         loading = true;
-        const host = el('div');
-        host.id = 'ytHost';
-        host.style.cssText = 'position:fixed;width:1px;height:1px;left:-20px;top:-20px;opacity:0;pointer-events:none';
-        document.body.append(host);
-        window.onYouTubeIframeAPIReady = () => {
-          player = new window.YT.Player('ytHost', {
+        loadYTAPI().then((YT) => {
+          const host = el('div');
+          host.id = 'ytHost';
+          host.style.cssText = 'position:fixed;width:1px;height:1px;left:-20px;top:-20px;opacity:0;pointer-events:none';
+          document.body.append(host);
+          player = new YT.Player('ytHost', {
             width: 1, height: 1,
-            playerVars: { autoplay: 1, controls: 0, playsinline: 1 },
+            playerVars: { autoplay: 1, controls: 0, playsinline: 1, ...(location.protocol.startsWith('http') ? { origin: location.origin } : {}) },
             events: {
               onReady: () => { ready = true; apply(); },
               onStateChange: (e) => { if (e.data === 0 && wanted) { player.seekTo(0); player.playVideo(); } },
             },
           });
-        };
-        const s = el('script');
-        s.src = 'https://www.youtube.com/iframe_api';
-        document.head.append(s);
+        }).catch(() => { loading = false; });
       }
       function apply() {
         if (!ready) return;
@@ -3196,6 +3400,8 @@
         game: { bpm: 128, root: 40, scale: 'minor', prog: [[0, 2, 4], [5, 7, 9], [3, 5, 7], [4, 6, 8]], pad: { type: 'sawtooth', cut: 1400, g: 0.06 }, bass: { g: 0.18, pat: [0, 2, 4, 6, 8, 10, 12, 14] }, arp: { pat: [0, 7, 4, 7, 9, 7, 4, 7], div: 1, oct: 2, type: 'lead', g: 0.028, prob: 1 }, perc: { kick: [0, 4, 8, 12], hat: [2, 6, 10, 14], snare: [4, 12], g: 0.7 }, sparkle: 0 },
         quiz: { bpm: 104, root: 55, scale: 'pentaMaj', prog: [[0, 2, 4], [3, 5, 7], [1, 3, 5], [4, 6, 8]], pad: { type: 'triangle', cut: 2000, g: 0.06 }, bass: { g: 0.12, pat: [0, 8, 10] }, arp: { pat: [0, 2, 4, 2, 5, 4, 2, 1], div: 2, oct: 2, type: 'pluck', g: 0.05, prob: 0.85 }, perc: { kick: [0, 8], hat: [4, 12], g: 0.45 }, sparkle: 0.05 },
         focus: { bpm: 72, root: 51, scale: 'major', prog: [[0, 2, 4, 6], [5, 7, 9, 11], [1, 3, 5, 7], [4, 6, 8, 10]], pad: { type: 'triangle', cut: 1200, g: 0.08 }, bass: { g: 0.12, pat: [0, 10] }, arp: { pat: [4, 6, 7, 9], div: 4, oct: 2, type: 'epiano', g: 0.04, prob: 0.6 }, perc: { kick: [0, 7, 10], hat: [4, 12], g: 0.35, soft: true }, sparkle: 0.05 },
+        boss: { bpm: 140, root: 38, scale: 'phrygian', prog: [[0, 2, 4], [1, 3, 5], [0, 2, 4], [6, 8, 10]], pad: { type: 'sawtooth', cut: 1100, g: 0.07 }, bass: { g: 0.2, pat: [0, 2, 3, 6, 8, 10, 11, 14] }, arp: { pat: [0, 1, 4, 1, 7, 4, 1, 0], div: 1, oct: 2, type: 'lead', g: 0.03, prob: 1 }, perc: { kick: [0, 3, 6, 8, 11, 14], hat: [2, 6, 10, 14], snare: [4, 12], g: 0.75 }, sparkle: 0 },
+        station: { bpm: 84, root: 52, scale: 'dorian', prog: [[0, 2, 4, 6], [3, 5, 7, 9], [5, 7, 9, 11], [4, 6, 8, 10]], pad: { type: 'triangle', cut: 1500, g: 0.08 }, bass: { g: 0.12, pat: [0, 10] }, arp: { pat: [0, 2, 4, 6, 4, 2], div: 2, oct: 2, type: 'epiano', g: 0.045, prob: 0.8 }, perc: { kick: [0, 10], hat: [4, 12], g: 0.35, soft: true }, sparkle: 0.1 },
       };
       function themeFor(key) {
         if (THEMES[key]) return THEMES[key];
@@ -3327,7 +3533,7 @@
       }
       function setMusic(key) {
         if (!ctx) { pendingKey = key; return; }
-        const yt = ytIdFor(key);
+        const yt = key ? ytIdFor(key) : null;
         const sig = `${key}|${yt || ''}`;
         if (current && current.sig === sig) return;
         const t = now();
@@ -3339,7 +3545,7 @@
           setTimeout(() => { old.gain.disconnect(); playing = playing.filter((p) => p !== old); }, 6000);
         }
         YTMusic.want(yt);
-        if (yt) { current = { sig }; return; }
+        if (yt || !key) { current = { sig }; return; }
         const gain = ctx.createGain();
         gain.gain.value = 0.0001;
         gain.gain.setTargetAtTime(1, t, 1.3);
@@ -3353,7 +3559,25 @@
         init,
         music: setMusic,
         setVolumes() { if (!ctx) return; musicBus.gain.setTargetAtTime(settings.music, now(), 0.1); sfxBus.gain.setTargetAtTime(settings.sfx, now(), 0.1); YTMusic.volume(); },
-        duck(on) { if (ctx) duckGain.gain.setTargetAtTime(on ? 0.4 : 1, now(), 0.25); },
+        duck(on) { if (ctx) duckGain.gain.setTargetAtTime(on ? 0.35 : 1, now(), 0.25); },
+        playVoice(clip, onEnd) {
+          if (!ctx) return null;
+          if (ctx.state === 'suspended') ctx.resume();
+          const bin = atob(clip.b64);
+          const n = bin.length >> 1;
+          const buf = ctx.createBuffer(1, n, clip.rate || 24000);
+          const ch = buf.getChannelData(0);
+          for (let i = 0; i < n; i++) { let v = bin.charCodeAt(2 * i) | (bin.charCodeAt(2 * i + 1) << 8); if (v >= 32768) v -= 65536; ch[i] = v / 32768; }
+          const src = ctx.createBufferSource();
+          src.buffer = buf;
+          const g = ctx.createGain();
+          g.gain.value = 1.15 * (typeof settings.voiceVol === 'number' ? settings.voiceVol : 1);
+          src.connect(g); g.connect(master);
+          const s = ctx.createGain(); s.gain.value = 0.08; g.connect(s); s.connect(revIn);
+          src.onended = () => { if (onEnd) onEnd(); };
+          src.start();
+          return src;
+        },
         click: guard(() => tone({ f: 880, f2: 1320, d: 0.06, g: 0.06, rev: 0.05 })),
         hover: guard(() => tone({ f: 1400, f2: 1800, d: 0.08, g: 0.03, rev: 0.15 })),
         open: guard(() => { tone({ type: 'triangle', f: 660, d: 0.12, g: 0.07 }); tone({ type: 'triangle', f: 990, t: now() + 0.07, d: 0.25, g: 0.06, rev: 0.3 }); }),
@@ -3387,7 +3611,8 @@
       const box = $('comms'), txt = $('commsText');
       let timer = 0, typer = 0;
       return {
-        show(text) {
+        show(text, who = 'ARGO') {
+          $('commsWho').textContent = who;
           clearTimeout(timer);
           clearInterval(typer);
           box.classList.add('on');
@@ -3403,30 +3628,170 @@
         },
       };
     })();
+    /* ----- Voix IA Google Gemini (TTS) avec cache local ----- */
+    const TTS_VOICES = [
+      ['Charon', 'grave et posée'], ['Fenrir', 'intense'], ['Orus', 'assurée'], ['Iapetus', 'nette'], ['Algieba', 'douce'],
+      ['Gacrux', 'mûre'], ['Kore', 'ferme et claire'], ['Aoede', 'légère'], ['Sulafat', 'chaleureuse'], ['Leda', 'jeune'],
+      ['Zephyr', 'lumineuse'], ['Puck', 'enjouée'], ['Despina', 'fluide'], ['Achird', 'amicale'], ['Umbriel', 'détendue'], ['Enceladus', 'soufflée'],
+    ];
+    const MOODS = {
+      narrator: "Tu es le narrateur de la bande-annonce d'un grand film de science-fiction. Lis ce texte en français d'une voix grave, lente et profonde, chargée d'émotion et d'émerveillement, en marquant des silences dramatiques",
+      epic: "Tu es le narrateur d'une bande-annonce épique. Lis ce texte en français avec intensité, souffle et émotion, comme au point culminant d'un film",
+      argo: "Tu es ARGO, l'intelligence de bord bienveillante d'un vaisseau spatial. Lis ce texte en français d'un ton chaleureux, calme et rassurant, naturel et souriant",
+      alert: "Tu es ARGO, l'IA de bord d'un vaisseau en plein combat. Lis ce texte en français d'un ton urgent et tendu, mais maîtrisé",
+      cheer: "Tu es ARGO, l'IA de bord. Lis ce texte en français avec enthousiasme et fierté, comme pour féliciter un pilote après un exploit",
+    };
+    const TTS = (() => {
+      const MODELS = ['gemini-3.1-flash-tts-preview', 'gemini-2.5-flash-preview-tts', 'gemini-2.5-pro-preview-tts'];
+      let modelIdx = 0, disabled = false;
+      const mem = new Map(), inflight = new Map();
+      let dbp = null;
+      const db = () => dbp || (dbp = new Promise((res) => {
+        try {
+          const r = indexedDB.open('univers-ia-voice', 1);
+          r.onupgradeneeded = () => r.result.createObjectStore('clips');
+          r.onsuccess = () => res(r.result);
+          r.onerror = () => res(null);
+        } catch { res(null); }
+      }));
+      async function idbGet(k) {
+        const d = await db();
+        if (!d) return null;
+        return new Promise((res) => { try { const q = d.transaction('clips').objectStore('clips').get(k); q.onsuccess = () => res(q.result || null); q.onerror = () => res(null); } catch { res(null); } });
+      }
+      async function idbSet(k, v) { const d = await db(); if (d) try { d.transaction('clips', 'readwrite').objectStore('clips').put(v, k); } catch { /* quota */ } }
+      async function request(prompt, voice) {
+        while (modelIdx < MODELS.length) {
+          const model = MODELS[modelIdx];
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(settings.tts.key)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: voice } } } },
+            }),
+          });
+          if (res.status === 404) { modelIdx++; continue; }
+          if (!res.ok) { const e = new Error(`TTS ${res.status}`); e.status = res.status; throw e; }
+          const json = await res.json();
+          const part = json?.candidates?.[0]?.content?.parts?.find((p) => p.inlineData && p.inlineData.data);
+          if (!part) throw new Error('Aucun audio renvoyé');
+          const rate = Number((part.inlineData.mimeType || '').match(/rate=(\d+)/)?.[1]) || 24000;
+          return { b64: part.inlineData.data, rate };
+        }
+        const e = new Error('Aucun modèle TTS disponible'); e.status = 404; throw e;
+      }
+      async function get(text, voice, mood) {
+        const k = `${voice}|${mood}|${text}`;
+        if (mem.has(k)) return mem.get(k);
+        if (inflight.has(k)) return inflight.get(k);
+        const p = (async () => {
+          let clip = await idbGet(k);
+          if (!clip) { clip = await request(`${MOODS[mood] || MOODS.argo} : ${text}`, voice); idbSet(k, clip); }
+          mem.set(k, clip);
+          return clip;
+        })();
+        inflight.set(k, p);
+        try { return await p; } finally { inflight.delete(k); }
+      }
+      return {
+        get,
+        get enabled() { return !!(settings.tts && settings.tts.key) && !disabled; },
+        disable() { disabled = true; },
+        reset() { disabled = false; modelIdx = 0; },
+        async clear() { mem.clear(); const d = await db(); if (d) try { d.transaction('clips', 'readwrite').objectStore('clips').clear(); } catch { /* ignore */ } },
+      };
+    })();
+
+    /* =====================================================================
+       VOIX D'ARGO ET VOIX OFF (Gemini, sinon voix du navigateur) + sous-titres
+       ===================================================================== */
     const Voice = (() => {
       const synth = window.speechSynthesis;
-      let voice = null;
+      let bvoice = null, queue = [], busy = false, gen = 0, current = null, warned = false;
       function pick() {
         if (!synth) return;
         const vs = synth.getVoices().filter((v) => /^fr/i.test(v.lang));
-        voice = vs.find((v) => /google|amélie|amelie|thomas|denise|henri|audrey|paul|eloise/i.test(v.name)) || vs[0] || null;
+        bvoice = vs.find((v) => /natural|neural|online/i.test(v.name)) || vs.find((v) => /google/i.test(v.name)) || vs.find((v) => /amélie|amelie|thomas|denise|henri|audrey|eloise/i.test(v.name)) || vs[0] || null;
       }
       if (synth) { pick(); synth.addEventListener?.('voiceschanged', pick); }
-      return {
-        say(text, { interrupt = false, subs = true } = {}) {
-          if (subs) Comms.show(text);
-          if (!settings.voice || !synth) return;
-          if (interrupt) synth.cancel();
-          const u = new SpeechSynthesisUtterance(text);
+      const voiceFor = (mood) => (mood === 'narrator' || mood === 'epic' ? settings.tts.narrator : settings.tts.argo) || 'Kore';
+      function speakBrowser(job) {
+        return new Promise((resolve) => {
+          if (!synth) return resolve();
+          const u = new SpeechSynthesisUtterance(job.text);
           u.lang = 'fr-FR';
-          if (voice) u.voice = voice;
-          u.rate = 1.04;
-          u.pitch = 0.92;
-          u.onstart = () => Sound.duck(true);
-          u.onend = u.onerror = () => { if (!synth.speaking) Sound.duck(false); };
+          if (bvoice) u.voice = bvoice;
+          const tone = { narrator: [0.9, 0.82], epic: [0.95, 0.85], alert: [1.12, 1.0], cheer: [1.08, 1.05] }[job.mood] || [1.03, 0.95];
+          u.rate = tone[0];
+          u.pitch = tone[1];
+          const done = () => { clearTimeout(guard); resolve(); };
+          const guard = setTimeout(done, 4000 + job.text.length * 90);
+          u.onend = u.onerror = done;
           synth.speak(u);
+        });
+      }
+      function handleError(e) {
+        if (e && (e.status === 400 || e.status === 401 || e.status === 403)) { TTS.disable(); toast('Clé API Gemini refusée : la voix du navigateur prend le relais'); }
+        else if (e && e.status === 429) { TTS.disable(); if (!warned) toast('Quota de la voix Gemini atteint : voix du navigateur pour cette session'); }
+        else if (!warned) toast('Voix Gemini indisponible : voix du navigateur utilisée');
+        warned = true;
+      }
+      async function pump() {
+        if (busy) return;
+        busy = true;
+        while (queue.length) {
+          const job = queue.shift();
+          const g = gen;
+          let played = false;
+          if (job.ready) {
+            try {
+              const clip = await job.ready;
+              if (g !== gen) continue;
+              if (job.deadline && performance.now() > job.deadline) continue;
+              Sound.duck(true);
+              await new Promise((resolve) => { current = Sound.playVoice(clip, resolve); if (!current) resolve(); });
+              current = null;
+              played = true;
+            } catch (e) { handleError(e); }
+          }
+          if (!played && g === gen && !(job.deadline && performance.now() > job.deadline)) { Sound.duck(true); await speakBrowser(job); }
+        }
+        Sound.duck(false);
+        busy = false;
+      }
+      function stop() {
+        gen++;
+        queue = [];
+        if (current) { try { current.stop(); } catch { /* déjà arrêté */ } current = null; }
+        if (synth) synth.cancel();
+        Sound.duck(false);
+      }
+      return {
+        say(text, { interrupt = false, subs = true, mood = 'argo', deadline = 0 } = {}) {
+          if (subs) Comms.show(text, mood === 'narrator' || mood === 'epic' ? 'Voix off' : 'ARGO');
+          if (!settings.voice) return;
+          if (interrupt) stop();
+          const job = { text, mood, deadline: deadline ? performance.now() + deadline : 0 };
+          if (TTS.enabled) job.ready = TTS.get(text, voiceFor(mood), mood);
+          queue.push(job);
+          pump();
         },
-        stop() { if (synth) synth.cancel(); Sound.duck(false); },
+        prefetch(lines, onProgress) {
+          if (!TTS.enabled) return Promise.resolve(false);
+          let done = 0;
+          const list = lines.slice();
+          const worker = async () => {
+            while (list.length) {
+              const l = list.shift();
+              try { await TTS.get(l.text, voiceFor(l.mood), l.mood); } catch (e) { handleError(e); list.length = 0; return; }
+              done++;
+              if (onProgress) onProgress(done, lines.length);
+            }
+          };
+          return Promise.all([worker(), worker(), worker()]).then(() => done === lines.length);
+        },
+        stop,
       };
     })();
 
@@ -3571,7 +3936,7 @@
       Sheet.open('Arcade', 'Gagnez de l’XP, montez en grade et débloquez des succès.', (b) => {
         const grid = el('div', 'grid');
         const games = [
-          { k: 'Combat spatial', name: 'Mission Astéroïdes', color: '#7ad7ff', desc: 'Pilotez ARGO-7 dans un champ de météorites : détruisez les drones, récupérez les données des IA et échappez aux trous noirs.', meta: `Record : ${prog.best.shooter.toLocaleString('fr-FR')} pts`, play: () => { Sheet.close(); Game.start(); } },
+          { k: 'Campagne spatiale', name: 'Opération Constellation', color: '#7ad7ff', desc: '5 secteurs, des planètes réalistes, des frégates, des trous noirs et un croiseur géant. Entre chaque secteur : améliorations, IA alliées et une question sur l’usage des IA. Jouez… et apprenez.', meta: `Record : ${prog.best.shooter.toLocaleString('fr-FR')} pts`, play: () => { Sheet.close(); Game.start(); } },
           { k: 'Quiz', name: 'Défi IA', color: '#c084fc', desc: 'Dix situations d’étudiant : choisissez la meilleure IA le plus vite possible. Idéal pour apprendre à bien les utiliser.', meta: `Record : ${prog.best.quiz.toLocaleString('fr-FR')} pts`, play: () => { Sheet.close(); Quiz.start(); } },
           { k: 'Productivité', name: 'Station Focus', color: '#34d399', desc: 'Sessions Pomodoro de 25 minutes avec musique de concentration. Chaque session terminée rapporte de l’XP.', meta: `${prog.focus} session(s) terminée(s)`, play: () => { Sheet.close(); Focus.show(true); } },
         ];
@@ -3645,16 +4010,49 @@
         row('Effets sonores', 'Interface, vaisseau, explosions…', range('sfx', () => Sound.click()));
         const voice = el('input'); voice.type = 'checkbox'; voice.checked = settings.voice;
         voice.addEventListener('change', () => { settings.voice = voice.checked; saveSettings(); if (!voice.checked) Voice.stop(); else Voice.say('Voix d’ARGO activée.'); });
-        row('Voix d’ARGO', 'L’IA de bord commente le voyage et lit les conseils. Les sous-titres restent affichés.', voice);
+        row('Voix d’ARGO et voix off', 'L’IA de bord commente le voyage, la voix off raconte l’intro. Les sous-titres restent affichés.', voice);
+        b.append(el('div', 'sec', 'Voix IA naturelle (Google Gemini)'));
+        b.append(el('p', 'notice', 'Pour une voix naturelle et pleine d’émotion, collez une clé API Gemini (gratuite sur Google AI Studio). Elle reste dans ce navigateur et n’est envoyée qu’à Google. Les voix générées sont mises en cache pour ne pas consommer votre quota deux fois. Sans clé, la meilleure voix de votre navigateur est utilisée.'));
+        const keyIn = el('input');
+        keyIn.type = 'password';
+        keyIn.placeholder = 'Clé API Gemini (AIza…)';
+        keyIn.autocomplete = 'off';
+        keyIn.value = settings.tts.key || '';
+        keyIn.addEventListener('change', () => {
+          settings.tts.key = keyIn.value.trim();
+          saveSettings();
+          TTS.reset();
+          window.dispatchEvent(new Event('univers:tts'));
+          toast(settings.tts.key ? 'Clé enregistrée : la voix IA Gemini est activée' : 'Voix IA désactivée : voix du navigateur');
+        });
+        const keyRow = el('div', 'keyrow');
+        const getKey = el('a', 'btn', 'Obtenir une clé ↗');
+        getKey.href = 'https://aistudio.google.com/apikey';
+        getKey.target = '_blank';
+        getKey.rel = 'noopener noreferrer';
+        keyRow.append(keyIn, getKey);
+        row('Clé API Gemini', 'Google AI Studio → « Get API key ».', keyRow);
+        const vsel = (cur, onc) => { const s = el('select'); for (const [n, d] of TTS_VOICES) { const o = el('option', null, `${n} · ${d}`); o.value = n; s.append(o); } s.value = cur; s.addEventListener('change', () => onc(s.value)); return s; };
+        row('Voix du narrateur', 'Voix off de l’introduction et des moments épiques.', vsel(settings.tts.narrator, (v) => { settings.tts.narrator = v; saveSettings(); }));
+        row('Voix d’ARGO', 'L’intelligence de bord du vaisseau.', vsel(settings.tts.argo, (v) => { settings.tts.argo = v; saveSettings(); }));
+        row('Volume des voix', 'Voix off et ARGO.', range('voiceVol'));
+        const tests = el('div', 'keyrow');
+        tests.append(
+          button('Tester le narrateur', '', () => { Sound.init(); Voice.say('Au-delà des étoiles… une nouvelle ère commence.', { interrupt: true, mood: 'narrator' }); }),
+          button('Tester ARGO', '', () => { Sound.init(); Voice.say('Bonjour pilote. Tous les systèmes sont opérationnels.', { interrupt: true, mood: 'argo' }); }),
+          button('Vider le cache vocal', '', async () => { await TTS.clear(); toast('Cache vocal vidé'); }),
+        );
+        row('Essai', 'La première génération prend quelques secondes.', tests);
         b.append(el('div', 'sec', 'Graphismes'));
         const sel = el('select');
         for (const [v, l] of [['high', 'Haute (recommandée)'], ['balanced', 'Équilibrée'], ['eco', 'Économie (sans halo lumineux)']]) { const o = el('option', null, l); o.value = v; sel.append(o); }
         sel.value = settings.quality;
         sel.addEventListener('change', () => { settings.quality = sel.value; saveSettings(); applyQuality(); });
         row('Qualité graphique', 'Réduisez-la si l’animation n’est pas fluide sur votre appareil.', sel);
-        b.append(el('div', 'sec', 'Musiques YouTube (facultatif)'));
+        b.append(el('div', 'sec', 'Musiques YouTube par zone (facultatif)'));
+        b.append(el('p', 'notice', 'Pour lancer votre propre musique à tout moment (par exemple PLK), utilisez plutôt la Radio de bord : bouton égaliseur en haut ou touche M.'));
         b.append(el('p', 'notice', 'Collez le lien d’une vidéo YouTube pour remplacer la bande-son d’une zone. Laissez vide pour garder la musique générée. La lecture dépend de la disponibilité de la vidéo et des droits de l’auteur.'));
-        for (const [key, label] of [['universe', 'Univers et introduction'], ['eco', 'Galaxie Économie'], ['math', 'Galaxie Mathématiques'], ['phys', 'Galaxie Physique'], ['game', 'Mission Astéroïdes']]) {
+        for (const [key, label] of [['universe', 'Univers et introduction'], ['eco', 'Galaxie Économie'], ['math', 'Galaxie Mathématiques'], ['phys', 'Galaxie Physique'], ['game', 'Combat spatial']]) {
           const i = el('input');
           i.type = 'url';
           i.placeholder = 'https://www.youtube.com/watch?v=…';
@@ -3686,7 +4084,11 @@
         k('T', 'Boîte à outils étudiant');
         k('J', 'Arcade');
         k('F', 'Station Focus');
+        k('M', 'Radio de bord (musique YouTube)');
         k('?', 'Afficher cette aide');
+        k('Jeu : clic / Espace', 'Tirer');
+        k('Jeu : clic droit / F', 'Missile à tête chercheuse');
+        k('Jeu : E', 'Propulsion (esquive)');
         k('← / →', 'Visite guidée : étape précédente / suivante');
         k('Échap', 'Fermer / quitter / passer l’intro');
         b.append(keys);
@@ -3758,13 +4160,23 @@
           if (state === 'galaxy') { bot("Retour vers l'univers des IA."); toggle(false); return startReturn(); }
           return bot('Nous sommes déjà dans l’univers. Choisissez une galaxie :', galaxies.map((g) => ({ label: g.def.name, fn: () => { toggle(false); startTravel(g); } })));
         }
+        if (has(/(musique|radio|chanson|playlist|youtube|ecouter|plk)/)) {
+          const url = q.match(/https?:\/\/\S+/);
+          toggle(false);
+          Radio.show(true);
+          if (url) { Radio.play(url[0]); return bot('Je lance votre musique sur la radio de bord.'); }
+          const m = norm(q).match(/(?:mets|met|joue|lance|ecouter|ecoute)\s+(?:moi\s+)?(?:du |de la |des |de |l'|le |la )?(.+)/);
+          const query = m ? m[1].replace(/\b(musique|en fond|sur la radio|stp|s'il te plait|svp)\b/g, '').trim() : (has(/plk/) ? 'PLK' : '');
+          if (query) $('rInput').value = query;
+          return bot(query ? `J'ouvre la radio de bord. Appuyez sur « Lire » pour chercher « ${query} » sur YouTube, puis collez ici le lien du titre ou de la playlist.` : 'Voici la radio de bord : collez un lien YouTube pour lancer votre musique.');
+        }
         if (has(/(asteroide|meteor|bataille|combat|shooter|tirer|vaisseaux? ennemi)/) || (has(/(jou|lance)/) && has(/(mission|vaisseau)/))) {
-          bot('Lancement de la Mission Astéroïdes. Bonne chance, pilote !');
+          bot('Lancement de l’Opération Constellation. Bonne chance, pilote !');
           toggle(false);
           return Game.start();
         }
         if (has(/(quiz|defi|teste?-moi)/)) { bot('Lancement du Défi IA : dix questions pour devenir expert.'); toggle(false); return Quiz.start(); }
-        if (has(/\b(jeux?|jouer|arcade|amuser)\b/)) return bot("Voici l'arcade : un combat spatial, un quiz et la Station Focus.", [{ label: 'Ouvrir l’arcade', primary: true, fn: openArcade }, { label: 'Mission Astéroïdes', fn: () => { toggle(false); Game.start(); } }, { label: 'Défi IA', fn: () => { toggle(false); Quiz.start(); } }]);
+        if (has(/\b(jeux?|jouer|arcade|amuser)\b/)) return bot("Voici l'arcade : un combat spatial, un quiz et la Station Focus.", [{ label: 'Ouvrir l’arcade', primary: true, fn: openArcade }, { label: 'Opération Constellation', fn: () => { toggle(false); Game.start(); } }, { label: 'Défi IA', fn: () => { toggle(false); Quiz.start(); } }]);
         if (has(/(pomodoro|focus|minuteur|chrono|concentr)/)) { Focus.show(true); Focus.start(); return bot('Session Focus de 25 minutes lancée. Je vous préviens à la fin. Bon courage !'); }
         if (has(/(cree|creer|nouvelle galaxie|ajoute une galaxie)/)) { bot("Ouvrons l'atelier de création de galaxie."); toggle(false); return openModal(); }
         if (has(/\b(score|xp|rang|grade|niveau|progression|points|succes)\b/)) {
@@ -3975,39 +4387,168 @@
     })();
 
     /* =====================================================================
-       MISSION ASTÉROÏDES : combat spatial
+       OPÉRATION CONSTELLATION : campagne de combat spatial
        ===================================================================== */
-    const Game = (() => {
-      const G = { active: false, paused: false };
-      const BX = 15, BY = 8.5, DURATION = 120;
-      const gScene = new THREE.Scene();
-      gScene.background = new THREE.Color(0x020309);
-      const gCam = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.3, 3000);
-      gScene.add(gCam);
-      gScene.add(new THREE.AmbientLight(0x8fa4ff, 0.5));
-      const sunL = new THREE.DirectionalLight(0xffe2c0, 2.6); sunL.position.set(-30, 40, 30); gScene.add(sunL);
-      const rimL = new THREE.DirectionalLight(0x6f8dff, 1.4); rimL.position.set(20, -10, -30); gScene.add(rimL);
-      const bg = new THREE.Mesh(nebula.geometry, nebula.material); bg.scale.setScalar(0.25); bg.renderOrder = -10; gScene.add(bg);
-      const planet = new THREE.Mesh(new THREE.SphereGeometry(260, 64, 64), new THREE.ShaderMaterial({
-        uniforms: { uTime: U_TIME },
-        vertexShader: ORB_VERT,
+    function makePlanet(type, R) {
+      const group = new THREE.Group();
+      const PLANET_VERT = `
+        varying vec3 vN; varying vec3 vW; varying vec3 vObj;
+        void main(){ vObj = position; vN = normalize(mat3(modelMatrix) * normal); vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`;
+      const SURF = {
+        earth: `
+          float h = fbm(p * 2.2 + 3.1); float h2 = fbm(p * 7.0 + 1.7);
+          vec3 ocean = mix(vec3(0.01, 0.05, 0.16), vec3(0.03, 0.2, 0.38), smoothstep(0.3, 0.52, h));
+          vec3 land = mix(vec3(0.1, 0.28, 0.08), vec3(0.5, 0.42, 0.26), smoothstep(0.4, 0.7, h2));
+          float isLand = smoothstep(0.52, 0.55, h);
+          col = mix(ocean, land, isLand);
+          col = mix(col, vec3(0.92, 0.95, 1.0), smoothstep(0.78, 0.86, abs(p.y) + h2 * 0.1));
+          spec = (1.0 - isLand) * 0.7;
+          night = isLand * smoothstep(0.55, 0.75, fbm(p * 18.0)) * vec3(1.0, 0.72, 0.38);`,
+        rock: `
+          float h = fbm(p * 2.6 + 7.0); float h2 = fbm(p * 9.0);
+          col = mix(vec3(0.42, 0.17, 0.08), vec3(0.78, 0.44, 0.24), h);
+          col *= 0.75 + 0.35 * smoothstep(0.35, 0.65, h2);
+          col = mix(col, vec3(0.9, 0.88, 0.85), smoothstep(0.88, 0.95, abs(p.y)));`,
+        ice: `
+          float h = fbm(p * 2.4 + 2.0); float h2 = fbm(p * 11.0);
+          col = mix(vec3(0.38, 0.58, 0.78), vec3(0.86, 0.93, 1.0), h);
+          col += vec3(0.25, 0.45, 0.6) * smoothstep(0.48, 0.5, h2) * (1.0 - smoothstep(0.5, 0.53, h2));
+          spec = 0.4;`,
+        lava: `
+          float h = fbm(p * 3.0 + 5.0); float h2 = fbm(p * 8.0 + uTime * 0.02);
+          col = mix(vec3(0.05, 0.03, 0.03), vec3(0.16, 0.08, 0.06), h);
+          float crack = 1.0 - smoothstep(0.0, 0.035, abs(h2 - 0.5));
+          glow = vec3(3.0, 0.9, 0.15) * crack;`,
+        gas: `
+          float sw = fbm(p * 3.0 + vec3(uTime * 0.01, 0.0, 0.0));
+          float band = p.y * 8.0 + sw * 2.4;
+          col = mix(vec3(0.62, 0.42, 0.3), vec3(0.95, 0.84, 0.66), 0.5 + 0.5 * sin(band * 2.0));
+          col = mix(col, vec3(0.8, 0.5, 0.35), smoothstep(0.62, 0.8, fbm(p * 6.0)));
+          float storm = 1.0 - smoothstep(0.0, 0.12, length(p - normalize(vec3(0.6, -0.25, 0.75))));
+          col = mix(col, vec3(0.75, 0.32, 0.2), storm);`,
+      };
+      const ATM = { earth: '0.35, 0.6, 1.0', rock: '1.0, 0.55, 0.35', ice: '0.6, 0.85, 1.0', lava: '1.0, 0.35, 0.1', gas: '1.0, 0.8, 0.55' }[type];
+      const uniforms = { uTime: U_TIME, uSun: { value: V(-0.7, 0.45, 0.55).normalize() } };
+      const surf = new THREE.Mesh(new THREE.SphereGeometry(R, 96, 96), new THREE.ShaderMaterial({
+        uniforms,
+        vertexShader: PLANET_VERT,
         fragmentShader: `
-          uniform float uTime; varying vec3 vN; varying vec3 vV; varying vec3 vObj;
+          uniform float uTime; uniform vec3 uSun; varying vec3 vN; varying vec3 vW; varying vec3 vObj;
           ${NOISE_GLSL}
           void main(){
-            vec3 n = normalize(vN); vec3 p = normalize(vObj);
-            float band = p.y * 7.0 + fbm(p * 3.0 + vec3(uTime * 0.01, 0.0, 0.0)) * 2.2;
-            vec3 c = mix(vec3(0.5, 0.3, 0.22), vec3(0.95, 0.78, 0.55), 0.5 + 0.5 * sin(band * 2.0));
-            c = mix(c, vec3(0.32, 0.17, 0.14), smoothstep(0.6, 0.9, fbm(p * 6.0)));
-            float light = clamp(dot(n, normalize(vec3(-0.6, 0.5, 0.6))), 0.0, 1.0);
-            float fres = pow(1.0 - max(dot(n, normalize(vV)), 0.0), 3.0);
-            gl_FragColor = vec4(c * (0.06 + light * 0.9) + vec3(0.4, 0.6, 1.0) * fres * 0.8, 1.0);
+            vec3 p = normalize(vObj); vec3 n = normalize(vN); vec3 v = normalize(cameraPosition - vW);
+            vec3 col = vec3(0.5); float spec = 0.0; vec3 night = vec3(0.0); vec3 glow = vec3(0.0);
+            ${SURF[type]}
+            float diff = max(dot(n, uSun), 0.0);
+            float term = smoothstep(-0.12, 0.25, dot(n, uSun));
+            vec3 lit = col * (0.025 + diff * 1.05);
+            lit += pow(max(dot(reflect(-uSun, n), v), 0.0), 40.0) * spec * term;
+            lit += night * (1.0 - term) * 0.9 + glow;
+            float fres = pow(1.0 - max(dot(n, v), 0.0), 3.0);
+            lit += vec3(${ATM}) * fres * (0.15 + term * 0.9);
+            gl_FragColor = vec4(lit, 1.0);
           }`,
       }));
-      planet.position.set(-560, -170, -1500);
-      gScene.add(planet);
+      group.add(surf);
+      if (type === 'earth') {
+        const clouds = new THREE.Mesh(new THREE.SphereGeometry(R * 1.012, 96, 96), new THREE.ShaderMaterial({
+          uniforms, transparent: true, depthWrite: false, vertexShader: PLANET_VERT,
+          fragmentShader: `
+            uniform float uTime; uniform vec3 uSun; varying vec3 vN; varying vec3 vW; varying vec3 vObj;
+            ${NOISE_GLSL}
+            void main(){
+              vec3 p = normalize(vObj);
+              float c = smoothstep(0.5, 0.72, fbm(p * 4.0 + vec3(uTime * 0.008, 0.0, uTime * 0.005)));
+              float diff = max(dot(normalize(vN), uSun), 0.0);
+              gl_FragColor = vec4(vec3(1.0) * (0.04 + diff), c * 0.85);
+            }`,
+        }));
+        group.add(clouds);
+        group.userData.clouds = clouds;
+      }
+      const atm = new THREE.Mesh(new THREE.SphereGeometry(R * 1.07, 64, 64), new THREE.ShaderMaterial({
+        uniforms, transparent: true, depthWrite: false, side: THREE.BackSide, blending: THREE.AdditiveBlending, vertexShader: PLANET_VERT,
+        fragmentShader: `
+          uniform vec3 uSun; varying vec3 vN; varying vec3 vW;
+          void main(){
+            vec3 n = normalize(vN); vec3 v = normalize(cameraPosition - vW);
+            float rim = pow(clamp(1.0 + dot(n, v) * 1.2, 0.0, 1.0), 3.0);
+            float lit = smoothstep(-0.3, 0.6, dot(-n, uSun));
+            gl_FragColor = vec4(vec3(${ATM}) * rim * (0.2 + lit * 1.4), rim);
+          }`,
+      }));
+      group.add(atm);
+      if (type === 'gas') {
+        const ring = new THREE.Mesh(new THREE.RingGeometry(R * 1.35, R * 2.25, 180, 1), new THREE.ShaderMaterial({
+          uniforms, transparent: true, depthWrite: false, side: THREE.DoubleSide,
+          vertexShader: 'varying vec3 vP; varying vec3 vW; void main(){ vP = position; vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
+          fragmentShader: `
+            varying vec3 vP;
+            ${NOISE_GLSL}
+            void main(){
+              float r = length(vP.xy) / ${(R).toFixed(1)};
+              float t = (r - 1.35) / 0.9;
+              float bands = 0.55 + 0.45 * sin(t * 60.0 + noise(vec3(t * 30.0, 0.0, 0.0)) * 4.0);
+              float gap = smoothstep(0.02, 0.05, abs(t - 0.62));
+              float a = bands * gap * smoothstep(0.0, 0.05, t) * (1.0 - smoothstep(0.92, 1.0, t)) * 0.75;
+              gl_FragColor = vec4(vec3(0.9, 0.8, 0.65) * (0.5 + bands * 0.5), a);
+            }`,
+        }));
+        ring.rotation.x = -1.25;
+        ring.rotation.y = 0.25;
+        group.add(ring);
+      }
+      group.rotation.z = 0.35;
+      return group;
+    }
 
-      // Champ d'étoiles qui défile
+    const Game = (() => {
+      const G = { active: false, paused: false };
+      const BX = 15, BY = 8.5;
+      const SECTORS = [
+        { name: 'Ceinture de Kepler', obj: 'Détruisez les astéroïdes et récupérez les données des IA', dur: 70, planet: 'rock', color: '#ffb070', meteor: 1, drone: 0.25, inter: 0, frigate: 0, holes: [] },
+        { name: 'Patrouille d’Orion', obj: 'Repoussez les drones et les intercepteurs', dur: 75, planet: 'earth', color: '#7ad7ff', meteor: 0.6, drone: 1, inter: 0.6, frigate: 0, holes: [] },
+        { name: 'Nébuleuse Hélix', obj: 'Traversez la nébuleuse sans vous faire aspirer', dur: 80, planet: 'gas', color: '#c084fc', meteor: 0.8, drone: 0.7, inter: 0.7, frigate: 0, holes: [16, 46] },
+        { name: 'Front de Sirius', obj: 'Détruisez les frégates de la flotte ennemie', dur: 85, planet: 'ice', color: '#5eead4', meteor: 0.5, drone: 0.8, inter: 0.9, frigate: 1, holes: [44] },
+        { name: 'Croiseur Entropie', obj: 'Abattez le vaisseau-mère : tourelles, puis réacteur central', dur: 0, planet: 'lava', color: '#ff5a5a', meteor: 0.25, drone: 0.4, inter: 0.5, frigate: 0, holes: [], boss: true },
+      ];
+      const ALLIES = {
+        claude: { perk: '+30 % de dégâts', apply: (s) => { s.dmgMul *= 1.3; } },
+        chatgpt: { perk: 'Bouclier auto-réparateur (+2/s)', apply: (s) => { s.regen += 2; } },
+        deepseek: { perk: '+3 missiles de précision', apply: (s) => { s.missiles += 3; s.missileMax += 3; } },
+        gemini: { perk: 'Radar multimodal : données IA ×2', apply: (s) => { s.coreMul = 2; } },
+        grok: { perk: 'Propulseurs : dash rechargé 2× plus vite', apply: (s) => { s.dashCd = 1.5; } },
+        qwen: { perk: 'Tir triple pendant tout le secteur', apply: (s) => { s.tripleAll = true; } },
+        kimi: { perk: 'Aimant longue portée pour les bonus', apply: (s) => { s.magnet = 16; } },
+        glm: { perk: 'Tourelle agent : tir automatique', apply: (s) => { s.turret = true; } },
+      };
+      const UPGRADES = [
+        { id: 'dmg', name: 'Canons plasma', desc: '+40 % de dégâts' },
+        { id: 'rate', name: 'Cadence de tir', desc: '+15 % de cadence' },
+        { id: 'shield', name: 'Bouclier renforcé', desc: '+25 de bouclier max' },
+        { id: 'missile', name: 'Soute à missiles', desc: '+2 missiles par secteur' },
+        { id: 'regen', name: 'Nano-réparation', desc: '+1 de bouclier par seconde' },
+      ];
+      const COSTS = [150, 300, 500];
+
+      const gScene = new THREE.Scene();
+      gScene.background = new THREE.Color(0x020309);
+      const gCam = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.3, 4000);
+      gScene.add(gCam);
+      gScene.add(new THREE.AmbientLight(0x8fa4ff, 0.45));
+      const sunL = new THREE.DirectionalLight(0xffe6c8, 2.8); sunL.position.set(-30, 25, 22); gScene.add(sunL);
+      const rimL = new THREE.DirectionalLight(0x6f8dff, 1.6); rimL.position.set(20, -10, -30); gScene.add(rimL);
+      const bg = new THREE.Mesh(nebula.geometry, nebula.material); bg.scale.setScalar(0.3); bg.renderOrder = -10; gScene.add(bg);
+      const sunGlow = glowSprite('#ffe1b0', 900, 0.55); sunGlow.position.set(-1500, 900, -2200); gScene.add(sunGlow);
+      let planet = null;
+      function setPlanet(type) {
+        if (planet) gScene.remove(planet);
+        planet = makePlanet(type, 300);
+        planet.position.set(type === 'gas' ? 520 : -560, -190, -1550);
+        gScene.add(planet);
+      }
+
+      // Étoiles qui défilent + traînées de vitesse
       const SN = 2600, sPos = new Float32Array(SN * 3);
       for (let i = 0; i < SN; i++) sPos.set([rnd(-170, 170), rnd(-120, 120), rnd(-700, 20)], i * 3);
       const sGeo = new THREE.BufferGeometry();
@@ -4029,7 +4570,6 @@
       }));
       stars.frustumCulled = false;
       gScene.add(stars);
-      // Traînées de vitesse
       const SL = 160, slPos = new Float32Array(SL * 6), slCol = new Float32Array(SL * 6), slMeta = [];
       for (let i = 0; i < SL; i++) slMeta.push({ x: rnd(-60, 60), y: rnd(-40, 40), z: rnd(-400, 0) });
       const slGeo = new THREE.BufferGeometry();
@@ -4040,7 +4580,7 @@
       gScene.add(streaks);
 
       // Particules
-      const MAXP = 2200;
+      const MAXP = 2600;
       const pPos = new Float32Array(MAXP * 3), pCol = new Float32Array(MAXP * 3), pBase = new Float32Array(MAXP * 3), pVel = new Float32Array(MAXP * 3), pLife = new Float32Array(MAXP), pMax = new Float32Array(MAXP);
       let pNext = 0;
       const pGeo = new THREE.BufferGeometry();
@@ -4076,12 +4616,11 @@
       // Vaisseau du joueur
       const P = makeShip();
       setShipColor('#7ad7ff', P);
-      P.group.visible = true;
       gScene.add(P.group);
       const shieldBubble = new THREE.Mesh(new THREE.SphereGeometry(2.4, 32, 32), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.4, 0.9, 1.6), transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }));
       gScene.add(shieldBubble);
 
-      // Ressources graphiques
+      // Ressources
       function rockGeo(seed) {
         const geo = new THREE.IcosahedronGeometry(1, 3);
         const pos = geo.attributes.position, v = new THREE.Vector3();
@@ -4098,40 +4637,108 @@
       const lavaMat = new THREE.MeshStandardMaterial({ color: 0x3a241b, emissive: 0xff5a1f, emissiveIntensity: 0.9, roughness: 0.8, flatShading: true });
       const boltGeo = new THREE.CylinderGeometry(0.07, 0.07, 3.2, 6); boltGeo.rotateX(Math.PI / 2);
       const boltMat = new THREE.MeshBasicMaterial({ color: new THREE.Color('#7ad7ff').multiplyScalar(5) });
-      const droneGeo = new THREE.OctahedronGeometry(1.2, 0);
-      const droneMat = new THREE.MeshPhysicalMaterial({ color: 0x2a3142, metalness: 0.8, roughness: 0.3, envMap, envMapIntensity: 1.2 });
-      const droneRingGeo = new THREE.TorusGeometry(1.7, 0.07, 8, 48);
+      const turretBoltMat = new THREE.MeshBasicMaterial({ color: new THREE.Color('#5eead4').multiplyScalar(5) });
+      const enemyHull = new THREE.MeshPhysicalMaterial({ color: 0x2a3142, metalness: 0.8, roughness: 0.32, envMap, envMapIntensity: 1.2 });
+      const enemyHull2 = new THREE.MeshPhysicalMaterial({ color: 0x3a2f3a, metalness: 0.75, roughness: 0.38, envMap, envMapIntensity: 1.1 });
       const redHot = new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 0.5, 0.7) });
+      const orangeHot = new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 1.6, 0.4) });
+      const droneGeo = new THREE.OctahedronGeometry(1.2, 0);
+      const droneRingGeo = new THREE.TorusGeometry(1.7, 0.07, 8, 48);
       const eyeGeo = new THREE.SphereGeometry(0.28, 16, 16);
       const ringGeo = new THREE.TorusGeometry(1.9, 0.06, 8, 64);
+      const missileGeo = new THREE.CylinderGeometry(0.1, 0.16, 1.2, 8); missileGeo.rotateX(Math.PI / 2);
+      const missileMat = new THREE.MeshStandardMaterial({ color: 0xdfe6f2, metalness: 0.6, roughness: 0.3 });
 
-      let meteors = [], drones = [], bolts = [], eBolts = [], pickups = [], holes = [], flashes = [];
-      let score = 0, combo = 0, mult = 1, lastKill = -10, elapsed = 0, shield = 100, inv = 0, shake = 0;
-      let fireCd = 0, triple = 0, fireHeld = false, autoFire = false, countdown = 0, warnedLow = false, over = false;
-      let meteorT = 0, droneT = 0, coreT = 0, powerT = 0, holeTimes = [];
-      let stats = { meteors: 0, drones: 0, cores: 0, maxMult: 1 };
+      // État
+      let meteors = [], enemies = [], bolts = [], missiles = [], eBolts = [], pickups = [], holes = [], flashes = [], beams = [];
+      let boss = null;
+      let score = 0, credits = 0, combo = 0, mult = 1, lastKill = -10, clock = 0, sectorT = 0, sectorIdx = 0, shield = 100, inv = 0, shake = 0;
+      let fireCd = 0, fireHeld = false, autoFire = false, warnedLow = false, over = false, phase = 'play', banner0 = 0;
+      let dashT = 0, dashCool = 0, turretCd = 0, missileRegen = 0;
+      let spawn = { meteor: 0, drone: 0, inter: 0, frigate: 0, core: 0, power: 0 }, holeTimes = [];
+      let up = { dmg: 0, rate: 0, shield: 0, missile: 0, regen: 0 }, ally = null, S = null;
+      let stats = { meteors: 0, enemies: 0, cores: 0, maxMult: 1 };
       let prevState = 'universe';
       const pos = V(), vel = V(), target = V(), kbd = V();
-      const segA = V(), segD = V(), segP = V();
-      // Distance d'un point au segment parcouru par un projectile pendant l'image (évite l'effet tunnel)
+      const keysG = new Set();
+      const ndcG = new THREE.Vector2();
+      const segD = V(), segP = V(), segA = V();
       function segDist(a, b, c) {
         segD.subVectors(b, a);
         const l2 = segD.lengthSq();
         const k = l2 ? clamp01(segP.subVectors(c, a).dot(segD) / l2) : 0;
         return segP.copy(a).addScaledVector(segD, k).distanceTo(c);
       }
-      const keysG = new Set();
-      const ndcG = new THREE.Vector2();
-
-      function add(obj) { gScene.add(obj); return obj; }
+      function computeStats() {
+        S = { dmgMul: 1 + 0.4 * up.dmg, fire: 0.13 * (1 - 0.15 * up.rate), maxShield: 100 + 25 * up.shield, missileMax: 3 + 2 * up.missile, regen: up.regen, coreMul: 1, dashCd: 3, magnet: 0, turret: false, tripleAll: false, triple: 0 };
+        S.missiles = S.missileMax;
+        if (ally && ALLIES[ally]) ALLIES[ally].apply(S);
+      }
+      const add = (o) => { gScene.add(o); return o; };
       function remove(list, item) { gScene.remove(item.m); const i = list.indexOf(item); if (i >= 0) list.splice(i, 1); }
       function clearAll() {
-        for (const list of [meteors, drones, bolts, eBolts, pickups, holes]) for (const it of list.slice()) remove(list, it);
+        for (const list of [meteors, enemies, bolts, missiles, eBolts, pickups, holes, beams]) for (const it of list.slice()) remove(list, it);
         for (const f of flashes) gScene.remove(f.s);
         flashes = [];
+        if (boss) { gScene.remove(boss.m); boss = null; }
         pLife.fill(0);
       }
 
+      // HUD
+      const hud = {
+        score: $('gScore'), mult: $('gMult'), time: $('gTime'), timeK: $('gTimeK'), shield: $('gShield'), shieldBox: $('gShieldBox'), shieldTxt: $('gShieldTxt'),
+        power: $('gPower'), banner: $('gBanner'), reticle: $('gReticle'), flash: $('gFlash'), pops: $('gPops'), help: $('gHelp'),
+        sector: $('gSector'), obj: $('gObj'), prog: $('gProg'), boss: $('gBossBox'), bossBar: $('gBoss'), mis: $('gMis'), dash: $('gDash'), cred: $('gCred'), ally: $('gAlly'),
+      };
+      let bannerTimer = 0;
+      function banner(text, color = '#7ad7ff', dur = 1.6) {
+        hud.banner.textContent = text;
+        hud.banner.style.setProperty('--bc', color);
+        hud.banner.classList.add('on');
+        clearTimeout(bannerTimer);
+        bannerTimer = setTimeout(() => hud.banner.classList.remove('on'), dur * 1000);
+      }
+      function popAt(world, text, color = '#7ad7ff') {
+        tmpA.copy(world).project(gCam);
+        if (tmpA.z > 1) return;
+        const d = el('div', 'g-pop', text);
+        d.style.left = `${(tmpA.x * 0.5 + 0.5) * window.innerWidth}px`;
+        d.style.top = `${(-tmpA.y * 0.5 + 0.5) * window.innerHeight}px`;
+        d.style.setProperty('--pc', color);
+        hud.pops.append(d);
+        setTimeout(() => d.remove(), 950);
+      }
+      function flashSprite(p, color, size) {
+        const s = glowSprite(color, size * 0.3, 1);
+        s.position.copy(p);
+        gScene.add(s);
+        flashes.push({ s, t: 0, size });
+      }
+      function renderHud() {
+        const sec = SECTORS[sectorIdx];
+        hud.score.textContent = score.toLocaleString('fr-FR');
+        hud.mult.textContent = `×${mult}`;
+        hud.mult.classList.toggle('on', mult > 1);
+        hud.cred.textContent = `${credits.toLocaleString('fr-FR')} crédits`;
+        if (sec.boss) { hud.timeK.textContent = 'Secteur'; hud.time.textContent = `${sectorIdx + 1}/${SECTORS.length}`; }
+        else { const left = Math.max(0, sec.dur - sectorT); hud.timeK.textContent = `Secteur ${sectorIdx + 1}/${SECTORS.length}`; hud.time.textContent = `${Math.floor(left / 60)}:${String(Math.floor(left % 60)).padStart(2, '0')}`; }
+        hud.prog.style.width = sec.boss ? '100%' : `${clamp01(sectorT / sec.dur) * 100}%`;
+        hud.shield.style.width = `${clamp01(shield / S.maxShield) * 100}%`;
+        hud.shieldTxt.textContent = `${Math.max(0, Math.round(shield))} / ${S.maxShield}`;
+        hud.shieldBox.classList.toggle('low', shield <= S.maxShield * 0.3);
+        hud.mis.textContent = `Missiles ${S.missiles}/${S.missileMax}`;
+        hud.dash.textContent = dashCool > 0 ? `Propulsion ${dashCool.toFixed(1)} s` : 'Propulsion prête';
+        hud.dash.classList.toggle('ready', dashCool <= 0);
+        hud.power.replaceChildren();
+        if (S.triple > 0 && !S.tripleAll) hud.power.append(el('span', null, `Tir triple ${Math.ceil(S.triple)} s`));
+        if (boss) {
+          hud.boss.classList.add('on');
+          const tot = boss.turrets.reduce((s, t) => s + Math.max(0, t.hp), 0) + Math.max(0, boss.core.hp);
+          hud.bossBar.style.width = `${clamp01(tot / boss.maxHp) * 100}%`;
+        } else hud.boss.classList.remove('on');
+      }
+
+      // Apparitions
       function spawnMeteor(x, y, z, r, vx = 0, vy = 0) {
         const hot = Math.random() < 0.14;
         const m = add(new THREE.Mesh(rockGeos[(Math.random() * 3) | 0], hot ? lavaMat : rockMats[(Math.random() * 3) | 0]));
@@ -4142,13 +4749,39 @@
       }
       function spawnDrone() {
         const grp = new THREE.Group();
-        const body = new THREE.Mesh(droneGeo, droneMat); body.scale.set(1.5, 0.45, 1.5);
+        const body = new THREE.Mesh(droneGeo, enemyHull); body.scale.set(1.5, 0.45, 1.5);
         const ring = new THREE.Mesh(droneRingGeo, redHot); ring.rotation.x = Math.PI / 2;
         const eye = new THREE.Mesh(eyeGeo, redHot); eye.position.z = 0.9;
         grp.add(body, ring, eye, glowSprite('#ff3b5c', 5, 0.55));
         grp.position.set(rnd(-BX, BX), rnd(-BY, BY), -330);
         add(grp);
-        drones.push({ m: grp, ring, hp: 3, t: Math.random() * 6, fire: rnd(1.4, 2.4), x0: grp.position.x, y0: grp.position.y });
+        enemies.push({ m: grp, kind: 'drone', ring, hp: 3, r: 2, t: Math.random() * 6, fire: rnd(1.4, 2.4), x0: grp.position.x, y0: grp.position.y, pts: 350 });
+      }
+      function spawnInterceptor() {
+        const grp = new THREE.Group();
+        const nose = new THREE.Mesh(new THREE.ConeGeometry(0.6, 3.2, 6), enemyHull2); nose.rotation.x = Math.PI / 2;
+        const wing = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.12, 1.3), enemyHull2); wing.position.z = -0.6;
+        const fin1 = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.2, 1), enemyHull2); fin1.position.set(2.1, 0.4, -0.7);
+        const fin2 = fin1.clone(); fin2.position.x = -2.1;
+        const engine = new THREE.Mesh(new THREE.SphereGeometry(0.35, 12, 12), orangeHot); engine.position.z = -1.5;
+        grp.add(nose, wing, fin1, fin2, engine, glowSprite('#ff9a4d', 3, 0.7));
+        const side = Math.random() < 0.5 ? -1 : 1;
+        grp.position.set(side * 42, rnd(-BY, BY), rnd(-150, -80));
+        add(grp);
+        enemies.push({ m: grp, kind: 'inter', hp: 2, r: 1.8, t: 0, side, fire: rnd(0.6, 1.2), burst: 0, vy: rnd(-3, 3), pts: 300 });
+      }
+      function spawnFrigate() {
+        const grp = new THREE.Group();
+        const hull = new THREE.Mesh(new THREE.BoxGeometry(9, 1.8, 4.5), enemyHull);
+        const bridge = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.6, 2.2), enemyHull2); bridge.position.set(0, 1.5, -0.6);
+        const prow = new THREE.Mesh(new THREE.ConeGeometry(1.5, 3.4, 4), enemyHull); prow.rotation.x = Math.PI / 2; prow.rotation.z = Math.PI / 4; prow.position.z = 3.6;
+        const strip = new THREE.Mesh(new THREE.BoxGeometry(9.1, 0.12, 0.2), redHot); strip.position.set(0, 0.2, 2.3);
+        grp.add(hull, bridge, prow, strip);
+        for (const x of [-3.2, 3.2]) { const e = glowSprite('#ff6a3d', 4, 0.8); e.position.set(x, 0, -2.6); grp.add(e); }
+        grp.position.set(rnd(-BX * 0.7, BX * 0.7), rnd(-BY * 0.4, BY * 0.6), -330);
+        add(grp);
+        enemies.push({ m: grp, kind: 'frigate', hp: 26, maxHp: 26, r: 4.6, t: 0, fire: 2.2, x0: grp.position.x, pts: 1500 });
+        Voice.say('Frégate ennemie en approche. Concentrez vos tirs.', { interrupt: true, mood: 'alert' });
       }
       function spawnCore() {
         const ai = AIS[(Math.random() * AIS.length) | 0];
@@ -4161,7 +4794,7 @@
         pickups.push({ m: grp, ring, kind: 'core', ai, color: new THREE.Color(ai.color) });
       }
       function spawnPower(kind) {
-        const color = kind === 'shield' ? '#5eead4' : '#facc15';
+        const color = { shield: '#5eead4', triple: '#facc15', missile: '#f472b6' }[kind];
         const grp = new THREE.Group();
         const shell = new THREE.Mesh(new THREE.IcosahedronGeometry(1.1, 1), new THREE.MeshBasicMaterial({ color: new THREE.Color(color).multiplyScalar(2.5), wireframe: true, transparent: true, opacity: 0.9 }));
         grp.add(glowSprite(color, 7, 0.75), shell);
@@ -4198,55 +4831,50 @@
         holes.push({ m: grp, disk, photon, near: false, rewarded: false });
         Sound.alarm();
         banner('TROU NOIR DÉTECTÉ', '#ff9a4d', 2.2);
-        Voice.say('Attention : trou noir détecté. Gardez vos distances, sa gravité dévie tout sur son passage.', { interrupt: true });
+        Voice.say('Attention : trou noir détecté. Sa gravité dévie tout sur son passage. Gardez vos distances.', { interrupt: true, mood: 'alert' });
       }
-
-      // Interface
-      const hud = { score: $('gScore'), mult: $('gMult'), time: $('gTime'), shield: $('gShield'), shieldBox: $('gShieldBox'), power: $('gPower'), banner: $('gBanner'), reticle: $('gReticle'), flash: $('gFlash'), pops: $('gPops'), help: $('gHelp') };
-      let bannerTimer = 0;
-      function banner(text, color = '#7ad7ff', dur = 1.6) {
-        hud.banner.textContent = text;
-        hud.banner.style.setProperty('--bc', color);
-        hud.banner.classList.add('on');
-        clearTimeout(bannerTimer);
-        bannerTimer = setTimeout(() => hud.banner.classList.remove('on'), dur * 1000);
-      }
-      function popAt(world, text, color = '#7ad7ff') {
-        tmpA.copy(world).project(gCam);
-        if (tmpA.z > 1) return;
-        const d = el('div', 'g-pop', text);
-        d.style.left = `${(tmpA.x * 0.5 + 0.5) * window.innerWidth}px`;
-        d.style.top = `${(-tmpA.y * 0.5 + 0.5) * window.innerHeight}px`;
-        d.style.setProperty('--pc', color);
-        hud.pops.append(d);
-        setTimeout(() => d.remove(), 950);
-      }
-      function flashSprite(p, color, size) {
-        const s = glowSprite(color, size * 0.3, 1);
-        s.position.copy(p);
-        gScene.add(s);
-        flashes.push({ s, t: 0, size });
-      }
-      function renderHud() {
-        hud.score.textContent = score.toLocaleString('fr-FR');
-        hud.mult.textContent = `×${mult}`;
-        hud.mult.classList.toggle('on', mult > 1);
-        const left = Math.max(0, DURATION - elapsed);
-        hud.time.textContent = `${Math.floor(left / 60)}:${String(Math.floor(left % 60)).padStart(2, '0')}`;
-        hud.shield.style.width = `${Math.max(0, shield)}%`;
-        hud.shieldBox.classList.toggle('low', shield <= 30);
-        hud.power.replaceChildren();
-        if (triple > 0) hud.power.append(el('span', null, `Tir triple ${Math.ceil(triple)} s`));
+      function spawnBoss() {
+        const grp = new THREE.Group();
+        const hull = new THREE.Mesh(new THREE.CylinderGeometry(3.6, 5.4, 34, 28), enemyHull); hull.rotation.z = Math.PI / 2;
+        const deck = new THREE.Mesh(new THREE.BoxGeometry(22, 2.2, 8), enemyHull2); deck.position.y = 3.6;
+        const tower = new THREE.Mesh(new THREE.BoxGeometry(5, 4.5, 5), enemyHull); tower.position.set(0, 6.4, -1);
+        const ring1 = new THREE.Mesh(new THREE.TorusGeometry(9.5, 0.45, 12, 96), redHot);
+        const ring2 = new THREE.Mesh(new THREE.TorusGeometry(11, 0.18, 8, 96), enemyHull2);
+        grp.add(hull, deck, tower, ring1, ring2);
+        for (const x of [-17.5, 17.5]) { const e = glowSprite('#ff5a3d', 10, 0.9); e.position.set(x, 0, 0); grp.add(e); }
+        for (let i = -4; i <= 4; i++) { const s = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.15, 0.15), redHot); s.position.set(i * 3.4, -1.2, 5.2); grp.add(s); }
+        const turrets = [-12, -5.5, 5.5, 12].map((x, i) => {
+          const tm = new THREE.Group();
+          const ball = new THREE.Mesh(new THREE.SphereGeometry(1.5, 24, 24), enemyHull2);
+          const eye = new THREE.Mesh(new THREE.SphereGeometry(0.7, 16, 16), redHot); eye.position.z = 1.1;
+          tm.add(ball, eye, glowSprite('#ff3b5c', 5, 0.7));
+          tm.position.set(x, i % 2 ? 4.6 : -4, 4.2);
+          grp.add(tm);
+          return { m: tm, hp: 34, alive: true };
+        });
+        const core = new THREE.Mesh(new THREE.SphereGeometry(3, 32, 32), new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 1.2, 0.6) }));
+        core.position.z = 4.4;
+        const coreShield = new THREE.Mesh(new THREE.SphereGeometry(4.4, 32, 32), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.6, 0.9, 2), transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending, depthWrite: false }));
+        coreShield.position.z = 4.4;
+        grp.add(core, coreShield, glowSprite('#ff7a3d', 16, 0.6));
+        grp.position.set(0, 4, -320);
+        add(grp);
+        boss = { m: grp, ring1, ring2, turrets, core: { m: core, hp: 150 }, coreShield, t: 0, fire: 2, burst: 6, beam: 9, spawn: 8, entering: true, dying: 0 };
+        boss.maxHp = turrets.reduce((s, t) => s + t.hp, 0) + boss.core.hp;
+        Sound.alarm();
+        banner('CROISEUR ENTROPIE', '#ff5a5a', 2.6);
+        Voice.say('Le croiseur Entropie est là. Détruisez ses quatre tourelles pour exposer son réacteur central. Tout repose sur vous, pilote.', { interrupt: true, mood: 'epic' });
       }
 
       function addScore(n, at, color) {
         const pts = Math.round(n * mult);
         score += pts;
+        credits += Math.round(pts / 10);
         if (at) popAt(at, `+${pts}`, color);
       }
       function registerKill() {
-        combo = elapsed - lastKill < 2.4 ? combo + 1 : 0;
-        lastKill = elapsed;
+        combo = clock - lastKill < 2.4 ? combo + 1 : 0;
+        lastKill = clock;
         const m = 1 + Math.min(4, Math.floor(combo / 3));
         if (m > mult) { banner(`COMBO ×${m}`, '#facc15', 1); Sound.xp(); }
         mult = m;
@@ -4257,9 +4885,10 @@
         pEmit(p, new THREE.Color(1, 0.9, 0.7), Math.round(18 * big), 9 * big, [0.2, 0.6]);
         flashSprite(p, '#ffd2a0', 10 * big);
         Sound.explosion(big);
+        shake = Math.max(shake, 0.25 * big);
       }
       function damage(n) {
-        if (inv > 0 || over) return;
+        if (inv > 0 || over || phase !== 'play') return;
         shield -= n;
         inv = 0.7;
         shake = 1;
@@ -4268,23 +4897,237 @@
         setTimeout(() => hud.flash.classList.remove('on'), 60);
         combo = 0;
         mult = 1;
-        if (shield <= 30 && !warnedLow && shield > 0) { warnedLow = true; Voice.say('Bouclier critique ! Récupérez un module de bouclier.', { interrupt: true }); }
+        if (shield <= S.maxShield * 0.3 && !warnedLow && shield > 0) { warnedLow = true; Voice.say('Bouclier critique ! Récupérez un module de bouclier.', { interrupt: true, mood: 'alert' }); }
         if (shield <= 0) { explode(pos, new THREE.Color('#7ad7ff'), 2.5); P.group.visible = false; end(false); }
       }
+      function hitEnemy(e, dmg, at) {
+        e.hp -= dmg;
+        pEmit(at, new THREE.Color('#ff4d6d'), 6, 6, [0.15, 0.4]);
+        if (e.hp > 0) return false;
+        registerKill();
+        stats.enemies++;
+        addScore(e.pts, e.m.position, '#ff4d6d');
+        explode(e.m.position, new THREE.Color(e.kind === 'inter' ? '#ff9a4d' : '#ff4d6d'), e.kind === 'frigate' ? 2.6 : 1.2);
+        if (e.kind === 'frigate') { spawnPowerAt('shield', e.m.position); Voice.say('Frégate détruite. Excellent tir !', { interrupt: true, mood: 'cheer' }); }
+        remove(enemies, e);
+        return true;
+      }
+      function hitMeteor(mt, dmg, at) {
+        mt.hp -= dmg;
+        pEmit(at, new THREE.Color('#ffd2a0'), 6, 6, [0.15, 0.4]);
+        if (mt.hp > 0) return false;
+        registerKill();
+        stats.meteors++;
+        addScore(mt.hot ? 250 : 60 * Math.ceil(mt.r), mt.m.position, mt.hot ? '#ff7a3d' : '#ffd2a0');
+        explode(mt.m.position, mt.hot ? new THREE.Color('#ff7a3d') : new THREE.Color('#d9b38c'), mt.r / 2.6);
+        if (mt.r > 2.5) for (const s of [-1, 1]) spawnMeteor(mt.m.position.x + s, mt.m.position.y, mt.m.position.z, mt.r * 0.5, s * rnd(4, 9), rnd(-4, 4));
+        remove(meteors, mt);
+        return true;
+      }
+      function hitBoss(at, dmg, prev) {
+        if (!boss || boss.dying) return false;
+        for (const tr of boss.turrets) {
+          if (!tr.alive) continue;
+          tr.m.getWorldPosition(tmpC);
+          if ((prev ? segDist(prev, at, tmpC) : at.distanceTo(tmpC)) < 2.2) {
+            tr.hp -= dmg;
+            pEmit(tmpC, new THREE.Color('#ff4d6d'), 6, 6, [0.15, 0.4]);
+            if (tr.hp <= 0) {
+              tr.alive = false;
+              tr.m.visible = false;
+              explode(tmpC, new THREE.Color('#ff4d6d'), 2);
+              addScore(1200, tmpC, '#ff4d6d');
+              const left = boss.turrets.filter((x) => x.alive).length;
+              if (!left) { boss.coreShield.visible = false; banner('RÉACTEUR EXPOSÉ', '#ffb070', 2); Voice.say('Le réacteur est exposé ! Visez le cœur du croiseur !', { interrupt: true, mood: 'alert' }); }
+              else Voice.say(`Tourelle détruite. Plus que ${left}.`, { interrupt: true, mood: 'cheer' });
+            }
+            return true;
+          }
+        }
+        boss.core.m.getWorldPosition(tmpC);
+        const d = prev ? segDist(prev, at, tmpC) : at.distanceTo(tmpC);
+        if (boss.coreShield.visible) { if (d < 4.6) { pEmit(at, new THREE.Color('#9db8ff'), 5, 5, [0.1, 0.3]); return true; } return false; }
+        if (d < 3.4) {
+          boss.core.hp -= dmg;
+          pEmit(tmpC, new THREE.Color('#ffb070'), 8, 7, [0.15, 0.4]);
+          if (boss.core.hp <= 0) { boss.dying = 2.6; Voice.say('Le croiseur se désintègre ! Victoire, pilote !', { interrupt: true, mood: 'cheer' }); }
+          return true;
+        }
+        tmpB.set(boss.m.position.x, boss.m.position.y, boss.m.position.z);
+        if (Math.abs(at.x - tmpB.x) < 17 && Math.abs(at.y - tmpB.y) < 4 && Math.abs(at.z - tmpB.z) < 5) { pEmit(at, new THREE.Color('#9db8ff'), 4, 4, [0.1, 0.25]); return true; }
+        return false;
+      }
+      function spawnPowerAt(kind, p) { spawnPower(kind); pickups[pickups.length - 1].m.position.copy(p); }
 
+      // Tirs du joueur
       function shoot() {
-        const dirs = triple > 0 ? [-0.07, 0, 0.07] : [0];
+        const triple = S.tripleAll || S.triple > 0;
+        const dirs = triple ? [-0.07, 0, 0.07] : [0];
         for (const side of [-1, 1]) for (const dx of dirs) {
-          if (triple > 0 && side === 1 && dx !== 0) continue;
+          if (triple && side === 1 && dx !== 0) continue;
           const m = add(new THREE.Mesh(boltGeo, boltMat));
           m.position.set(pos.x + side * 1.15, pos.y - 0.05, pos.z - 1.2);
           const v = V(dx * 260 + vel.x * 0.2, vel.y * 0.2, -260);
           m.lookAt(tmpB.copy(m.position).add(v));
-          bolts.push({ m, vel: v });
+          bolts.push({ m, vel: v, dmg: S.dmgMul });
         }
-        pEmit(tmpA.set(pos.x - 1.15, pos.y, pos.z - 1.6), new THREE.Color('#7ad7ff'), 3, 4, [0.1, 0.25]);
-        pEmit(tmpA.set(pos.x + 1.15, pos.y, pos.z - 1.6), new THREE.Color('#7ad7ff'), 3, 4, [0.1, 0.25]);
+        for (const s of [-1, 1]) pEmit(tmpA.set(pos.x + s * 1.15, pos.y, pos.z - 1.6), new THREE.Color('#7ad7ff'), 3, 4, [0.1, 0.25]);
         Sound.laser();
+      }
+      function nearestTarget(from) {
+        let best = null, bd = Infinity;
+        const consider = (p, ref) => { if (p.z > from.z - 4 || p.z < -300) return; const d = p.distanceTo(from) + Math.abs(p.x - from.x) * 2; if (d < bd) { bd = d; best = ref; } };
+        for (const e of enemies) consider(e.m.position, { obj: e.m, kind: 'enemy', e });
+        for (const mt of meteors) if (mt.r > 1.6) consider(mt.m.position, { obj: mt.m, kind: 'meteor', e: mt });
+        if (boss && !boss.dying) {
+          for (const tr of boss.turrets) if (tr.alive) { tr.m.getWorldPosition(tmpC); consider(tmpC.clone(), { obj: tr.m, kind: 'turret' }); }
+          if (!boss.coreShield.visible) consider(boss.core.m.getWorldPosition(V()), { obj: boss.core.m, kind: 'core' });
+        }
+        return best;
+      }
+      function fireMissile() {
+        if (S.missiles <= 0 || phase !== 'play' || over) { Sound.bad(); return; }
+        S.missiles--;
+        const m = add(new THREE.Mesh(missileGeo, missileMat));
+        m.position.set(pos.x, pos.y - 0.6, pos.z - 1);
+        const glow = glowSprite('#f472b6', 2.2, 0.9); m.add(glow); glow.position.z = 0.7;
+        missiles.push({ m, vel: V(rnd(-6, 6), 6, -60), target: nearestTarget(pos), life: 4 });
+        Sound.launch();
+      }
+      function dash() {
+        if (dashCool > 0 || phase !== 'play' || over) return;
+        const dir = V(kbd.x || Math.sign(target.x - pos.x) || 1, kbd.y || 0, 0).normalize();
+        vel.addScaledVector(dir, 55);
+        inv = Math.max(inv, 0.45);
+        dashT = 0.35;
+        dashCool = S.dashCd;
+        Sound.whoosh(0.5);
+        pEmit(pos, new THREE.Color('#9db8ff'), 30, 10, [0.2, 0.5]);
+      }
+
+      // Station de ravitaillement entre les secteurs
+      function openStation() {
+        phase = 'station';
+        fireHeld = false;
+        const card = $('gStationCard');
+        card.replaceChildren();
+        const blobs = el('div', 'blobs'); blobs.append(el('i'), el('i'), el('i'));
+        const head = el('div', 'st-head');
+        head.append(el('span', 'gk', `Secteur ${sectorIdx + 1} terminé · Station de ravitaillement`), el('h2', null, `Prochaine destination : ${SECTORS[sectorIdx + 1].name}`));
+        const credEl = el('b', 'st-cred');
+        head.append(credEl);
+        card.append(blobs, head);
+        const cols = el('div', 'st-cols');
+        // Améliorations
+        const c1 = el('section', 'st-col');
+        c1.append(el('h3', null, 'Améliorations du vaisseau'));
+        const upList = el('div', 'st-list');
+        const renderUps = () => {
+          credEl.textContent = `${credits.toLocaleString('fr-FR')} crédits`;
+          upList.replaceChildren();
+          for (const u of UPGRADES) {
+            const lvl = up[u.id];
+            const row = el('button', 'st-up');
+            row.type = 'button';
+            const cost = COSTS[lvl];
+            row.disabled = lvl >= 3 || credits < cost;
+            const pips = el('span', 'pips');
+            for (let i = 0; i < 3; i++) pips.append(el('i', i < lvl ? 'on' : ''));
+            const txt = el('span');
+            txt.append(el('b', null, u.name), el('small', null, u.desc));
+            row.append(txt, pips, el('em', null, lvl >= 3 ? 'MAX' : `${cost} cr`));
+            row.addEventListener('click', () => { if (credits >= cost && lvl < 3) { credits -= cost; up[u.id]++; Sound.pickup(); renderUps(); } });
+            upList.append(row);
+          }
+        };
+        renderUps();
+        c1.append(upList);
+        // IA alliée
+        const c2 = el('section', 'st-col');
+        c2.append(el('h3', null, 'Choisissez une IA alliée'), el('p', 'st-note', 'Son bonus vous accompagne pendant le prochain secteur.'));
+        const keys = Object.keys(ALLIES).sort(() => Math.random() - 0.5).slice(0, 3);
+        let chosen = null;
+        const allyList = el('div', 'st-list');
+        for (const k of keys) {
+          const b = el('button', 'st-ally');
+          b.type = 'button';
+          setColors(b, AI[k].color, AI[k].color2);
+          const im = el('img'); im.alt = ''; im.src = LOGO_URL[k];
+          const txt = el('span'); txt.append(el('b', null, AI[k].name), el('small', null, ALLIES[k].perk));
+          b.append(im, txt);
+          b.addEventListener('click', () => { chosen = k; allyList.querySelectorAll('.st-ally').forEach((x) => x.classList.toggle('on', x === b)); Sound.click(); });
+          allyList.append(b);
+        }
+        c2.append(allyList);
+        // Terminal de connaissances
+        const c3 = el('section', 'st-col');
+        c3.append(el('h3', null, 'Terminal de connaissances'), el('p', 'st-note', 'Bonne réponse : +120 crédits et de l’XP.'));
+        const task = TOOLKIT[(Math.random() * TOOLKIT.length) | 0];
+        c3.append(el('p', 'st-q', `Pour « ${lcFirst(task.title)} », quelle IA choisir en priorité ?`));
+        const opts = new Set([task.ai, task.alt]);
+        for (const a of AIS.slice().sort(() => Math.random() - 0.5)) { if (opts.size >= 4) break; opts.add(a.key); }
+        const qList = el('div', 'st-qopts');
+        let answered = false;
+        for (const k of [...opts].sort(() => Math.random() - 0.5)) {
+          const b = el('button', 'st-qopt');
+          b.type = 'button';
+          const im = el('img'); im.alt = ''; im.src = LOGO_URL[k];
+          b.append(im, document.createTextNode(AI[k].name));
+          b.addEventListener('click', () => {
+            if (answered) return;
+            answered = true;
+            qList.querySelectorAll('button').forEach((x) => { x.disabled = true; if (x === b) x.classList.add(k === task.ai ? 'ok' : k === task.alt ? 'alt' : 'ko'); });
+            if (k === task.ai) { credits += 120; Sound.good(); addXP(20, 'Terminal de connaissances'); }
+            else if (k === task.alt) { credits += 50; Sound.good(); }
+            else Sound.bad();
+            qList.querySelectorAll('button').forEach((x) => { if (x.textContent === AI[task.ai].name) x.classList.add('ok'); });
+            c3.append(el('p', 'st-note', `${AI[task.ai].name} : ${task.why}`));
+            renderUps();
+          });
+          qList.append(b);
+        }
+        c3.append(qList);
+        cols.append(c1, c2, c3);
+        card.append(cols);
+        const go = button(`Décoller vers ${SECTORS[sectorIdx + 1].name}`, 'primary', () => {
+          if (!chosen) chosen = keys[0];
+          ally = chosen;
+          $('gStation').classList.remove('on');
+          startSector(sectorIdx + 1);
+        });
+        const foot = el('div', 'row');
+        foot.append(go);
+        card.append(foot);
+        $('gStation').classList.add('on');
+        Voice.say(`Secteur terminé. Bienvenue à la station de ravitaillement. Améliorez le vaisseau et choisissez une IA alliée avant de repartir.`, { interrupt: true, mood: 'argo' });
+        refreshMusic();
+      }
+
+      function startSector(i) {
+        sectorIdx = i;
+        const sec = SECTORS[i];
+        computeStats();
+        shield = S.maxShield;
+        warnedLow = false;
+        sectorT = 0;
+        phase = 'play';
+        clearAll();
+        setPlanet(sec.planet);
+        spawn = { meteor: 1.5, drone: 6, inter: 9, frigate: 14, core: 3, power: 15 };
+        holeTimes = sec.holes.slice();
+        banner0 = 3;
+        hud.sector.textContent = `${sec.name}`;
+        hud.obj.textContent = sec.obj;
+        setColors($('game'), sec.color, lighten(sec.color, 0.5));
+        hud.ally.replaceChildren();
+        if (ally) { const im = el('img'); im.alt = ''; im.src = LOGO_URL[ally]; hud.ally.append(im, el('span', null, `${AI[ally].name} · ${ALLIES[ally].perk}`)); }
+        banner(`SECTEUR ${i + 1} · ${sec.name.toUpperCase()}`, sec.color, 2.8);
+        Voice.say(i === 0
+          ? `Opération Constellation. Secteur un : ${sec.name}. ${sec.obj}. Bonne chance, pilote.`
+          : `Secteur ${i + 1} : ${sec.name}. ${sec.obj}.`, { interrupt: true, mood: sec.boss ? 'epic' : 'argo' });
+        if (sec.boss) setTimeout(() => { if (G.active && sectorIdx === i) spawnBoss(); }, 3500);
+        Sound.launch();
+        refreshMusic();
       }
 
       function start() {
@@ -4297,23 +5140,22 @@
         G.active = true;
         G.paused = false;
         over = false;
-        clearAll();
-        score = 0; combo = 0; mult = 1; lastKill = -10; elapsed = 0; shield = 100; inv = 0; shake = 0;
-        fireCd = 0; triple = 0; fireHeld = false; warnedLow = false; countdown = 3.2;
-        meteorT = 0.5; droneT = 10; coreT = 3; powerT = 18; holeTimes = [26, 64, 98];
-        stats = { meteors: 0, drones: 0, cores: 0, maxMult: 1 };
+        score = 0; credits = 0; combo = 0; mult = 1; lastKill = -10; clock = 0; inv = 0; shake = 0; fireCd = 0; fireHeld = false;
+        dashCool = 0; dashT = 0; turretCd = 0; missileRegen = 0;
+        up = { dmg: 0, rate: 0, shield: 0, missile: 0, regen: 0 };
+        ally = null;
+        stats = { meteors: 0, enemies: 0, cores: 0, maxMult: 1 };
         pos.set(0, -1, 0); vel.set(0, 0, 0); target.set(0, -1, 0);
         P.group.visible = true;
         controls.enabled = false;
         renderPass.scene = gScene;
         renderPass.camera = gCam;
-        $('gPause').classList.remove('on');
-        $('gEnd').classList.remove('on');
+        for (const id of ['gPause', 'gEnd', 'gStation']) $(id).classList.remove('on');
         hud.help.style.opacity = '1';
+        setTimeout(() => { hud.help.style.opacity = '0'; }, 9000);
         setState('game');
+        startSector(0);
         renderHud();
-        Voice.say('Mission Astéroïdes. Détruisez les météorites et les drones, récupérez les données des IA et évitez les trous noirs.', { interrupt: true });
-        Sound.launch();
       }
       function exit() {
         G.active = false;
@@ -4322,75 +5164,80 @@
         hud.banner.classList.remove('on');
         renderPass.scene = scene;
         renderPass.camera = camera;
-        $('gPause').classList.remove('on');
-        $('gEnd').classList.remove('on');
+        for (const id of ['gPause', 'gEnd', 'gStation']) $(id).classList.remove('on');
         if (prevState === 'galaxy' && activeGalaxy) enterGalaxy(activeGalaxy);
         else enterUniverse();
       }
       function setPause(v) {
-        if (over) return;
+        if (over || phase === 'station') return;
         G.paused = v;
         $('gPause').classList.toggle('on', v);
-        Sound.click();
       }
       function end(won) {
         if (over) return;
         over = true;
         fireHeld = false;
-        if (won) addScore(Math.max(0, shield) * 20, null);
+        if (won) addScore(Math.max(0, shield) * 30, null);
         const best = score > prog.best.shooter;
         if (best) { prog.best.shooter = score; saveProg(); }
-        const xp = Math.round(score / 25) + (won ? 100 : 0);
+        const xp = Math.round(score / 25) + (won ? 300 : sectorIdx * 40);
         setTimeout(() => {
           const c = $('gEndCard');
           c.replaceChildren();
           const blobs = el('div', 'blobs'); blobs.append(el('i'), el('i'), el('i'));
-          c.append(blobs, el('h2', null, won ? 'Mission accomplie' : 'Vaisseau détruit'), el('div', 'big', score.toLocaleString('fr-FR')), el('p', null, best ? 'Nouveau record personnel !' : `Record : ${prog.best.shooter.toLocaleString('fr-FR')} pts`));
+          c.append(blobs, el('h2', null, won ? 'Opération réussie' : 'Vaisseau détruit'), el('p', null, won ? 'Le croiseur Entropie est tombé. La galaxie vous doit une fière chandelle.' : `Secteur atteint : ${sectorIdx + 1}/${SECTORS.length} · ${SECTORS[sectorIdx].name}`), el('div', 'big', score.toLocaleString('fr-FR')), el('p', null, best ? 'Nouveau record personnel !' : `Record : ${prog.best.shooter.toLocaleString('fr-FR')} pts`));
           const st = el('div', 'stats');
           const s = (v, l) => { const d = el('div', 'stat'); d.append(el('b', null, String(v)), el('span', null, l)); st.append(d); };
-          s(stats.meteors, 'météorites'); s(stats.drones, 'drones'); s(stats.cores, 'données IA'); s(`×${stats.maxMult}`, 'combo max');
-          c.append(st, el('p', null, won ? `Bonus bouclier inclus · +${xp} XP` : `+${xp} XP`));
+          s(stats.meteors, 'astéroïdes'); s(stats.enemies, 'ennemis'); s(stats.cores, 'données IA'); s(`×${stats.maxMult}`, 'combo max');
+          c.append(st, el('p', null, `+${xp} XP`));
           const row = el('div', 'row');
-          row.append(button('Rejouer', 'primary', () => { exit(); setTimeout(start, 50); }), button('Retour à l’univers', '', exit));
+          row.append(button('Rejouer', 'primary', () => { exit(); setTimeout(start, 60); }), button('Retour à l’univers', '', exit));
           c.append(row);
           $('gEnd').classList.add('on');
-          addXP(xp, 'Mission Astéroïdes');
+          addXP(xp, 'Opération Constellation');
           if (score >= 10000) unlock('ace');
-          Voice.say(won ? `Mission accomplie. Score final : ${score} points.` : `Vaisseau détruit. Score : ${score} points.`, { interrupt: true });
-        }, won ? 300 : 1400);
-        if (won) banner('MISSION ACCOMPLIE', '#34d399', 2);
+          if (won) { unlock('boss'); }
+          Voice.say(won ? `Opération réussie. Score final : ${score} points. Vous êtes une légende, pilote.` : `Vaisseau détruit. Score : ${score} points. On se relève et on y retourne.`, { interrupt: true, mood: won ? 'cheer' : 'argo' });
+        }, won ? 600 : 1500);
       }
 
       // Entrées
-      window.addEventListener('pointermove', (e) => {
-        if (!G.active) return;
+      function aimFrom(e) {
         ndcG.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
         target.set(ndcG.x * BX * 1.1, ndcG.y * BY * 1.15 - 0.5, 0);
-      });
+      }
+      window.addEventListener('pointermove', (e) => { if (G.active && phase === 'play') aimFrom(e); });
       window.addEventListener('pointerdown', (e) => {
-        if (!G.active || G.paused || over) return;
+        if (!G.active || G.paused || over || phase !== 'play') return;
         if (e.target instanceof HTMLElement && e.target.closest('button')) return;
+        if (e.button === 2) { fireMissile(); return; }
         fireHeld = true;
         autoFire = e.pointerType === 'touch';
-        ndcG.set((e.clientX / window.innerWidth) * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
-        target.set(ndcG.x * BX * 1.1, ndcG.y * BY * 1.15 - 0.5, 0);
+        aimFrom(e);
       });
-      window.addEventListener('pointerup', () => { if (!autoFire) fireHeld = false; });
+      window.addEventListener('pointerup', (e) => { if (e.button !== 2 && !autoFire) fireHeld = false; });
+      window.addEventListener('contextmenu', (e) => { if (G.active) e.preventDefault(); });
       window.addEventListener('keydown', (e) => {
         if (!G.active) return;
-        if (e.code === 'Escape' || e.code === 'KeyP') { if (!over) setPause(!G.paused); e.preventDefault(); return; }
+        if (e.code === 'Escape' || e.code === 'KeyP') { setPause(!G.paused); e.preventDefault(); return; }
         if (e.code === 'Space') { fireHeld = true; e.preventDefault(); }
+        if (e.code === 'KeyF' || e.code === 'ShiftLeft' || e.code === 'ShiftRight') fireMissile();
+        if (e.code === 'KeyE' || e.code === 'KeyQ') dash();
         keysG.add(e.code);
       });
       window.addEventListener('keyup', (e) => { if (!G.active) return; if (e.code === 'Space') fireHeld = false; keysG.delete(e.code); });
       $('gPauseBtn').addEventListener('click', () => setPause(!G.paused));
       $('gResume').addEventListener('click', () => setPause(false));
       $('gQuit').addEventListener('click', exit);
+      $('gMisBtn').addEventListener('click', fireMissile);
+      $('gDashBtn').addEventListener('click', dash);
       document.addEventListener('visibilitychange', () => { if (document.hidden && G.active && !over) setPause(true); });
 
       function update(dt) {
         if (G.paused) return;
         const t = U_TIME.value;
+        const sec = SECTORS[sectorIdx];
+        if (planet) { planet.rotation.y += dt * 0.01; if (planet.userData.clouds) planet.userData.clouds.rotation.y += dt * 0.004; }
         // Pilotage
         kbd.set(0, 0, 0);
         if (keysG.has('KeyA') || keysG.has('ArrowLeft')) kbd.x -= 1;
@@ -4400,19 +5247,21 @@
         if (kbd.lengthSq()) { target.x += kbd.x * dt * 26; target.y += kbd.y * dt * 20; }
         target.x = THREE.MathUtils.clamp(target.x, -BX, BX);
         target.y = THREE.MathUtils.clamp(target.y, -BY, BY);
-        if (!over) {
-          vel.x += ((target.x - pos.x) * 42 - vel.x * 9) * dt;
-          vel.y += ((target.y - pos.y) * 42 - vel.y * 9) * dt;
-        }
-        const speed = 58 + Math.min(60, elapsed * 0.5);
-        const diff = 1 + elapsed / 45;
-        // Gravité des trous noirs
+        if (!over && phase === 'play') {
+          const k = dashT > 0 ? 0.3 : 1;
+          vel.x += ((target.x - pos.x) * 42 * k - vel.x * 9) * dt;
+          vel.y += ((target.y - pos.y) * 42 * k - vel.y * 9) * dt;
+        } else vel.multiplyScalar(Math.exp(-dt * 4));
+        dashT = Math.max(0, dashT - dt);
+        dashCool = Math.max(0, dashCool - dt);
+        const playing = phase === 'play' && !over;
+        const speed = playing || phase === 'station' ? 58 + sectorIdx * 9 + Math.min(20, sectorT * 0.2) : 30;
+        const diff = 1 + sectorIdx * 0.35 + sectorT / 70;
         for (const h of holes) {
           tmpA.copy(h.m.position).sub(pos);
           const d = tmpA.length();
-          if (d < 55 && !over) {
-            const acc = 2600 / Math.max(d * d, 22);
-            vel.addScaledVector(tmpA.normalize(), acc * dt);
+          if (d < 55 && playing) {
+            vel.addScaledVector(tmpA.normalize(), (2600 / Math.max(d * d, 22)) * dt);
             shake = Math.max(shake, (1 - d / 40) * 0.5);
             if (d < 10) h.near = true;
             if (d < 3.6) { damage(40); vel.addScaledVector(tmpA, -32); }
@@ -4422,18 +5271,18 @@
         pos.x = THREE.MathUtils.clamp(pos.x, -BX * 1.25, BX * 1.25);
         pos.y = THREE.MathUtils.clamp(pos.y, -BY * 1.25, BY * 1.25);
         P.group.position.copy(pos);
-        P.group.rotation.set(THREE.MathUtils.clamp(vel.y * 0.03, -0.5, 0.5), Math.PI, THREE.MathUtils.clamp(-vel.x * 0.045, -0.9, 0.9));
-        P.thrust = 0.9;
+        P.group.rotation.set(THREE.MathUtils.clamp(vel.y * 0.03, -0.5, 0.5), Math.PI, THREE.MathUtils.clamp(-vel.x * 0.045, -0.9, 0.9) + (dashT > 0 ? (0.35 - dashT) * 18 : 0));
         for (const f of P.flames) {
           const flick = 0.85 + Math.random() * 0.3;
           if (f.isSprite) f.material.opacity = 0.9 * flick;
-          else { f.scale.set(1, 1.5 * flick, 1); f.material.opacity = 0.9; }
+          else { f.scale.set(1, (dashT > 0 ? 2.6 : 1.5) * flick, 1); f.material.opacity = 0.9; }
         }
         P.navL.material.opacity = P.navR.material.opacity = Math.sin(t * 6) > 0.6 ? 1 : 0.15;
         if (!over) for (const e of P.engines) { e.getWorldPosition(tmpA); pEmit(tmpA, new THREE.Color('#7ad7ff'), 1, 3, [0.15, 0.35], 26); }
         shieldBubble.position.copy(pos);
-        shieldBubble.material.opacity = inv > 0 ? 0.25 * (inv / 0.7) : 0;
+        shieldBubble.material.opacity = inv > 0 ? 0.22 * clamp01(inv / 0.7) : 0;
         inv = Math.max(0, inv - dt);
+        if (playing && S.regen) shield = Math.min(S.maxShield, shield + S.regen * dt);
 
         // Caméra
         shake = Math.max(0, shake - dt * 2.2);
@@ -4450,71 +5299,106 @@
         slGeo.attributes.position.needsUpdate = true;
         slGeo.attributes.color.needsUpdate = true;
 
-        // Compte à rebours puis apparition des ennemis
-        if (countdown > 0) {
-          const before = Math.ceil(countdown);
-          countdown -= dt;
-          const after = Math.ceil(countdown);
-          if (after !== before || countdown === 3.2 - dt) { if (after > 0) { banner(String(after), '#7ad7ff', 0.8); Sound.click(); } else { banner('GO !', '#34d399', 0.9); Sound.launch(); setTimeout(() => { hud.help.style.opacity = '0'; }, 3500); } }
-        } else if (!over) {
-          elapsed += dt;
-          if ((meteorT -= dt) <= 0) {
-            const big = Math.random() < 0.25;
-            spawnMeteor(rnd(-BX * 1.3, BX * 1.3), rnd(-BY * 1.3, BY * 1.3), -330, big ? rnd(2.6, 4) : rnd(1.1, 2.2));
-            meteorT = rnd(0.35, 0.95) / diff;
+        // Déroulement du secteur
+        if (playing) {
+          clock += dt;
+          if (banner0 > 0) banner0 -= dt;
+          else {
+            sectorT += dt;
+            const rate = (k) => sec[k] > 0;
+            if (rate('meteor') && (spawn.meteor -= dt) <= 0) {
+              const big = Math.random() < 0.25;
+              spawnMeteor(rnd(-BX * 1.3, BX * 1.3), rnd(-BY * 1.3, BY * 1.3), -330, big ? rnd(2.6, 4) : rnd(1.1, 2.2));
+              spawn.meteor = rnd(0.4, 1) / (diff * sec.meteor);
+            }
+            if (rate('drone') && (spawn.drone -= dt) <= 0) { spawnDrone(); spawn.drone = rnd(3, 5.5) / (Math.sqrt(diff) * sec.drone); }
+            if (rate('inter') && (spawn.inter -= dt) <= 0) { spawnInterceptor(); spawn.inter = rnd(4, 7) / (Math.sqrt(diff) * sec.inter); }
+            if (rate('frigate') && (spawn.frigate -= dt) <= 0 && enemies.filter((e) => e.kind === 'frigate').length < 2) { spawnFrigate(); spawn.frigate = rnd(16, 22); }
+            if ((spawn.core -= dt) <= 0) { spawnCore(); spawn.core = rnd(2.5, 4.5); }
+            if ((spawn.power -= dt) <= 0) { const r = Math.random(); spawnPower(r < 0.4 ? 'shield' : r < 0.7 ? 'triple' : 'missile'); spawn.power = rnd(12, 18); }
+            if (holeTimes.length && sectorT >= holeTimes[0]) { holeTimes.shift(); spawnHole(); }
+            if (!sec.boss && sectorT >= sec.dur) {
+              if (sectorIdx + 1 < SECTORS.length) { banner('SECTEUR SÉCURISÉ', '#34d399', 2); Sound.arrive(); for (const e of enemies.slice()) { explode(e.m.position, new THREE.Color('#ff4d6d'), 0.8); remove(enemies, e); } setTimeout(() => { if (G.active && !over) openStation(); }, 1800); phase = 'transition'; }
+            }
           }
-          if ((droneT -= dt) <= 0) { spawnDrone(); droneT = rnd(3, 5.5) / Math.sqrt(diff); }
-          if ((coreT -= dt) <= 0) { spawnCore(); coreT = rnd(2.5, 4.5); }
-          if ((powerT -= dt) <= 0) { spawnPower(Math.random() < 0.55 ? 'shield' : 'triple'); powerT = rnd(14, 20); }
-          if (holeTimes.length && elapsed >= holeTimes[0]) { holeTimes.shift(); spawnHole(); }
-          if (elapsed >= DURATION) end(true);
+          missileRegen += dt;
+          if (missileRegen > 14) { missileRegen = 0; if (S.missiles < S.missileMax) S.missiles++; }
         }
 
         // Tir
         fireCd -= dt;
-        if (fireHeld && fireCd <= 0 && !over && countdown <= 0) { shoot(); fireCd = triple > 0 ? 0.16 : 0.13; }
-        triple = Math.max(0, triple - dt);
+        if (fireHeld && fireCd <= 0 && playing && banner0 <= 2.5) { shoot(); fireCd = S.fire; }
+        S.triple = Math.max(0, S.triple - dt);
+        if (S.turret && playing) {
+          turretCd -= dt;
+          if (turretCd <= 0) {
+            const tg = nearestTarget(pos);
+            if (tg) {
+              const tp = tg.obj.getWorldPosition(V());
+              const m = add(new THREE.Mesh(boltGeo, turretBoltMat));
+              m.position.set(pos.x, pos.y + 0.9, pos.z - 1);
+              const v = tp.sub(m.position).normalize().multiplyScalar(240);
+              m.lookAt(tmpB.copy(m.position).add(v));
+              bolts.push({ m, vel: v, dmg: 0.8 * S.dmgMul });
+              turretCd = 0.5;
+            }
+          }
+        }
 
-        // Déplacements
+        // Météorites
         for (const mt of meteors.slice()) {
           mt.m.position.z += (speed + mt.vel.z) * dt;
           mt.m.position.x += mt.vel.x * dt;
           mt.m.position.y += mt.vel.y * dt;
           mt.m.rotation.x += mt.spin.x * dt; mt.m.rotation.y += mt.spin.y * dt;
+          let gone = false;
           for (const h of holes) {
             tmpA.copy(h.m.position).sub(mt.m.position);
             const d = tmpA.length();
             if (d < 40) mt.vel.addScaledVector(tmpA.normalize(), (1800 / Math.max(d * d, 16)) * dt);
-            if (d < 3.4) { pEmit(mt.m.position, new THREE.Color('#ff9a4d'), 20, 6); remove(meteors, mt); break; }
+            if (d < 3.4) { pEmit(mt.m.position, new THREE.Color('#ff9a4d'), 20, 6); remove(meteors, mt); gone = true; break; }
           }
-          if (!mt.m.parent) continue;
+          if (gone) continue;
           if (mt.m.position.z > 25) { remove(meteors, mt); continue; }
-          if (!over && mt.m.position.distanceTo(pos) < mt.r + 1.1) {
-            damage(Math.round(12 + mt.r * 7));
-            explode(mt.m.position, new THREE.Color('#ffb070'), mt.r / 2.5);
-            remove(meteors, mt);
-          }
+          if (playing && mt.m.position.distanceTo(pos) < mt.r + 1.1) { damage(Math.round(12 + mt.r * 7)); explode(mt.m.position, new THREE.Color('#ffb070'), mt.r / 2.5); remove(meteors, mt); }
         }
-        for (const d of drones.slice()) {
-          d.t += dt;
-          d.m.position.z += speed * 0.55 * dt;
-          d.m.position.x = d.x0 + Math.sin(d.t * 1.3) * 6;
-          d.m.position.y = d.y0 + Math.cos(d.t * 0.9) * 3;
-          d.m.lookAt(pos);
-          d.ring.rotation.z += dt * 4;
-          d.fire -= dt;
-          if (d.fire <= 0 && d.m.position.z > -220 && d.m.position.z < -25 && !over) {
-            d.fire = rnd(1.4, 2.4) / Math.sqrt(diff);
-            const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex('#ff4d6d'), color: new THREE.Color(3, 1, 1.2), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
-            s.scale.setScalar(1.8);
-            s.position.copy(d.m.position);
-            add(s);
-            const v = tmpA.copy(pos).sub(d.m.position).normalize().multiplyScalar(70 + speed).clone();
-            eBolts.push({ m: s, vel: v });
+        // Ennemis
+        for (const e of enemies.slice()) {
+          e.t += dt;
+          if (e.kind === 'drone') {
+            e.m.position.z += speed * 0.55 * dt;
+            e.m.position.x = e.x0 + Math.sin(e.t * 1.3) * 6;
+            e.m.position.y = e.y0 + Math.cos(e.t * 0.9) * 3;
+            e.m.lookAt(pos);
+            e.ring.rotation.z += dt * 4;
+            e.fire -= dt;
+            if (e.fire <= 0 && e.m.position.z > -220 && e.m.position.z < -25 && playing) { e.fire = rnd(1.4, 2.4) / Math.sqrt(diff); enemyShot(e.m.position, 70 + speed, '#ff4d6d'); }
+          } else if (e.kind === 'inter') {
+            e.m.position.x -= e.side * 26 * dt;
+            e.m.position.z += speed * 0.35 * dt;
+            e.m.position.y += e.vy * dt;
+            tmpA.set(-e.side, 0, 0.6).add(e.m.position);
+            e.m.lookAt(tmpA);
+            e.m.rotateZ(e.side * 0.5);
+            e.fire -= dt;
+            if (e.fire <= 0 && playing && Math.abs(e.m.position.x) < BX * 1.4) { enemyShot(e.m.position, 90 + speed, '#ff9a4d'); e.burst++; e.fire = e.burst % 3 ? 0.18 : rnd(1.2, 1.8); }
+            if (Math.abs(e.m.position.x) > 48) { remove(enemies, e); continue; }
+          } else if (e.kind === 'frigate') {
+            const hold = -95;
+            if (e.m.position.z < hold) e.m.position.z += speed * 0.6 * dt;
+            e.m.position.x = e.x0 + Math.sin(e.t * 0.4) * 7;
+            e.fire -= dt;
+            if (e.fire <= 0 && playing && e.m.position.z > -200) {
+              e.fire = rnd(2, 2.8) / Math.sqrt(diff);
+              for (let k = -2; k <= 2; k++) enemyShot(e.m.position, 60 + speed, '#ff4d6d', k * 0.11);
+            }
           }
-          if (d.m.position.z > 25) { remove(drones, d); continue; }
-          if (!over && d.m.position.distanceTo(pos) < 2.4) { damage(30); explode(d.m.position, new THREE.Color('#ff4d6d'), 1.2); remove(drones, d); }
+          if (e.m.position.z > 25) { remove(enemies, e); continue; }
+          if (playing && e.m.position.distanceTo(pos) < e.r + 0.8) { damage(e.kind === 'frigate' ? 50 : 28); hitEnemy(e, 99, e.m.position); }
         }
+        // Boss
+        if (boss) updateBoss(dt, speed, playing);
+        // Projectiles du joueur
         for (const b of bolts.slice()) {
           segA.copy(b.m.position);
           b.m.position.addScaledVector(b.vel, dt);
@@ -4525,49 +5409,62 @@
           }
           if (b.m.position.z < -360 || Math.abs(b.m.position.x) > 80) { remove(bolts, b); continue; }
           let hit = false;
-          for (const mt of meteors) {
-            if (segDist(segA, b.m.position, mt.m.position) < mt.r + 0.6) {
-              hit = true;
-              mt.hp--;
-              pEmit(b.m.position, new THREE.Color('#ffd2a0'), 6, 6, [0.15, 0.4]);
-              if (mt.hp <= 0) {
-                registerKill();
-                stats.meteors++;
-                addScore(mt.hot ? 250 : 60 * Math.ceil(mt.r), mt.m.position, mt.hot ? '#ff7a3d' : '#ffd2a0');
-                explode(mt.m.position, mt.hot ? new THREE.Color('#ff7a3d') : new THREE.Color('#d9b38c'), mt.r / 2.6);
-                if (mt.r > 2.5) for (const s of [-1, 1]) spawnMeteor(mt.m.position.x + s, mt.m.position.y, mt.m.position.z, mt.r * 0.5, s * rnd(4, 9), rnd(-4, 4));
-                remove(meteors, mt);
-              }
-              break;
-            }
-          }
-          if (!hit) for (const d of drones) {
-            if (segDist(segA, b.m.position, d.m.position) < 2.1) {
-              hit = true;
-              d.hp--;
-              pEmit(b.m.position, new THREE.Color('#ff4d6d'), 8, 6, [0.15, 0.4]);
-              if (d.hp <= 0) { registerKill(); stats.drones++; addScore(350, d.m.position, '#ff4d6d'); explode(d.m.position, new THREE.Color('#ff4d6d'), 1.3); remove(drones, d); }
-              break;
-            }
-          }
+          for (const mt of meteors) if (segDist(segA, b.m.position, mt.m.position) < mt.r + 0.6) { hitMeteor(mt, b.dmg, b.m.position); hit = true; break; }
+          if (!hit) for (const e of enemies) if (segDist(segA, b.m.position, e.m.position) < e.r + 0.3) { hitEnemy(e, b.dmg, b.m.position); hit = true; break; }
+          if (!hit && boss) hit = hitBoss(b.m.position, b.dmg, segA.clone());
           if (hit) remove(bolts, b);
+        }
+        for (const ms of missiles.slice()) {
+          ms.life -= dt;
+          segA.copy(ms.m.position);
+          if (!ms.target || !ms.target.obj.parent || (ms.target.kind === 'turret' && !ms.target.obj.visible)) ms.target = nearestTarget(ms.m.position);
+          const tp = ms.target ? ms.target.obj.getWorldPosition(tmpC) : tmpC.set(ms.m.position.x, ms.m.position.y, ms.m.position.z - 50);
+          tmpA.copy(tp).sub(ms.m.position).normalize().multiplyScalar(150);
+          ms.vel.lerp(tmpA, Math.min(1, dt * 4));
+          ms.m.position.addScaledVector(ms.vel, dt);
+          ms.m.lookAt(tmpB.copy(ms.m.position).add(ms.vel));
+          ms.m.rotateY(Math.PI);
+          pEmit(ms.m.position, new THREE.Color('#f472b6'), 2, 2, [0.2, 0.5]);
+          let hit = false;
+          for (const mt of meteors) if (segDist(segA, ms.m.position, mt.m.position) < mt.r + 0.8) { hitMeteor(mt, 8, ms.m.position); hit = true; break; }
+          if (!hit) for (const e of enemies) if (segDist(segA, ms.m.position, e.m.position) < e.r + 0.6) { hitEnemy(e, 9, ms.m.position); hit = true; break; }
+          if (!hit && boss) hit = hitBoss(ms.m.position, 10, segA.clone());
+          if (hit) { explode(ms.m.position, new THREE.Color('#f472b6'), 0.9); remove(missiles, ms); continue; }
+          if (ms.life <= 0 || ms.m.position.z < -380) remove(missiles, ms);
         }
         for (const eb of eBolts.slice()) {
           segA.copy(eb.m.position);
           eb.m.position.addScaledVector(eb.vel, dt);
-          if (eb.m.position.z > 25) { remove(eBolts, eb); continue; }
-          if (!over && segDist(segA, eb.m.position, pos) < 1.4) { damage(12); remove(eBolts, eb); }
+          if (eb.m.position.z > 25 || Math.abs(eb.m.position.x) > 90) { remove(eBolts, eb); continue; }
+          if (playing && segDist(segA, eb.m.position, pos) < 1.4) { damage(eb.dmg); remove(eBolts, eb); }
         }
+        for (const bm of beams.slice()) {
+          bm.t += dt;
+          const k = clamp01((bm.t - 1.1) / 2.6);
+          bm.m.position.x = THREE.MathUtils.lerp(bm.from, bm.to, k);
+          const live = bm.t > 1.1;
+          bm.m.material.opacity = live ? 0.85 : 0.25 + 0.2 * Math.sin(bm.t * 30);
+          bm.m.scale.x = live ? 1 : 0.25;
+          if (live && playing && Math.abs(bm.m.position.x - pos.x) < 1.6) damage(25);
+          if (bm.t > 3.9) remove(beams, bm);
+        }
+        // Bonus
         for (const pk of pickups.slice()) {
           pk.m.position.z += speed * dt;
           pk.ring.rotation.x += dt * 1.6; pk.ring.rotation.y += dt * 2.2;
+          if (S.magnet && playing) { tmpA.copy(pos).sub(pk.m.position); const d = tmpA.length(); if (d < S.magnet) pk.m.position.addScaledVector(tmpA.normalize(), dt * 30); }
           if (pk.m.position.z > 25) { remove(pickups, pk); continue; }
-          if (!over && pk.m.position.distanceTo(pos) < 2.6) {
+          if (playing && pk.m.position.distanceTo(pos) < 2.6) {
             Sound.pickup();
             pEmit(pk.m.position, pk.color, 40, 10);
-            if (pk.kind === 'core') { stats.cores++; addScore(150, pk.m.position, pk.ai.color); banner(`DONNÉES ${pk.ai.name.toUpperCase()}`, pk.ai.color, 1); }
-            else if (pk.kind === 'shield') { shield = Math.min(100, shield + 35); warnedLow = shield <= 30; banner('BOUCLIER +35', '#5eead4', 1); }
-            else { triple = 9; banner('TIR TRIPLE', '#facc15', 1); }
+            if (pk.kind === 'core') {
+              stats.cores++;
+              addScore(150 * S.coreMul, pk.m.position, pk.ai.color);
+              credits += 25 * S.coreMul;
+              banner(`${pk.ai.name.toUpperCase()} · ${pk.ai.tagline.toUpperCase()}`, pk.ai.color, 1.3);
+            } else if (pk.kind === 'shield') { shield = Math.min(S.maxShield, shield + 35); warnedLow = shield <= S.maxShield * 0.3; banner('BOUCLIER +35', '#5eead4', 1); }
+            else if (pk.kind === 'missile') { S.missiles = Math.min(S.missileMax + 2, S.missiles + 2); banner('MISSILES +2', '#f472b6', 1); }
+            else { S.triple = 10; banner('TIR TRIPLE', '#facc15', 1); }
             remove(pickups, pk);
           }
         }
@@ -4576,7 +5473,7 @@
           h.disk.rotation.z += dt * 0.6;
           h.photon.lookAt(gCam.position);
           if (h.m.position.z > 30) {
-            if (h.near && !h.rewarded && !over) { h.rewarded = true; addScore(500, null); banner('HORIZON FRÔLÉ +500', '#ff9a4d', 1.6); unlock('horizon'); }
+            if (h.near && !h.rewarded && playing) { h.rewarded = true; addScore(500, null); banner('HORIZON FRÔLÉ +500', '#ff9a4d', 1.6); unlock('horizon'); }
             remove(holes, h);
           }
         }
@@ -4591,9 +5488,75 @@
         hud.reticle.style.transform = `translate3d(${(tmpA.x * 0.5 + 0.5) * window.innerWidth - 23}px, ${(-tmpA.y * 0.5 + 0.5) * window.innerHeight - 23}px, 0)`;
         renderHud();
       }
+      function enemyShot(from, speed, color, spread = 0) {
+        const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(color), color: new THREE.Color(3, 1.1, 1.2), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+        s.scale.setScalar(1.8);
+        s.position.copy(from);
+        add(s);
+        const v = tmpA.copy(pos).sub(from).normalize();
+        v.x += spread;
+        eBolts.push({ m: s, vel: v.normalize().multiplyScalar(speed).clone(), dmg: 12 });
+      }
+      function updateBoss(dt, speed, playing) {
+        const b = boss;
+        b.t += dt;
+        b.ring1.rotation.z += dt * 0.6;
+        b.ring2.rotation.z -= dt * 0.3;
+        if (b.dying > 0) {
+          b.dying -= dt;
+          if (Math.random() < 0.35) { tmpA.set(rnd(-16, 16), rnd(-5, 6), rnd(-3, 5)).add(b.m.position); explode(tmpA, new THREE.Color(Math.random() < 0.5 ? '#ffb070' : '#ff4d6d'), rnd(1, 2.5)); }
+          b.m.position.y -= dt * 3;
+          if (b.dying <= 0) { explode(b.m.position, new THREE.Color('#fff1d6'), 6); addScore(8000, b.m.position, '#ffb070'); gScene.remove(b.m); boss = null; end(true); }
+          return;
+        }
+        if (b.entering) {
+          b.m.position.z += (speed * 0.7) * dt;
+          if (b.m.position.z >= -100) { b.m.position.z = -100; b.entering = false; }
+          return;
+        }
+        b.m.position.x = Math.sin(b.t * 0.3) * 7;
+        b.m.position.y = 4 + Math.sin(b.t * 0.5) * 2;
+        if (!playing) return;
+        const exposed = !b.coreShield.visible;
+        b.fire -= dt;
+        if (b.fire <= 0) {
+          const alive = b.turrets.filter((x) => x.alive);
+          const src = alive.length ? alive[(Math.random() * alive.length) | 0].m.getWorldPosition(V()) : b.core.m.getWorldPosition(V());
+          enemyShot(src, 95, '#ff4d6d');
+          b.fire = exposed ? 0.45 : 0.75;
+        }
+        b.burst -= dt;
+        if (b.burst <= 0) {
+          b.burst = exposed ? 4.5 : 6.5;
+          const c = b.core.m.getWorldPosition(V());
+          for (let k = 0; k < 18; k++) {
+            const a = (k / 18) * Math.PI * 2;
+            const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex('#ff9a4d'), color: new THREE.Color(3, 1.6, 0.8), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+            s.scale.setScalar(1.6);
+            s.position.copy(c);
+            add(s);
+            eBolts.push({ m: s, vel: V(Math.cos(a) * 14, Math.sin(a) * 9, 55), dmg: 10 });
+          }
+          Sound.alarm();
+        }
+        if (exposed) {
+          b.beam -= dt;
+          if (b.beam <= 0) {
+            b.beam = rnd(6, 8);
+            const m = add(new THREE.Mesh(new THREE.BoxGeometry(1.4, 40, 130), new THREE.MeshBasicMaterial({ color: new THREE.Color(4, 0.6, 0.8), transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending, depthWrite: false })));
+            const dir = Math.random() < 0.5 ? 1 : -1;
+            m.position.set(-dir * BX * 1.2, 0, -45);
+            beams.push({ m, t: 0, from: -dir * BX * 1.2, to: dir * BX * 1.2 });
+            Voice.say('Rayon d’énergie ! Esquivez avec la propulsion !', { interrupt: true, mood: 'alert' });
+          }
+          b.spawn -= dt;
+          if (b.spawn <= 0) { b.spawn = 9; spawnDrone(); spawnDrone(); }
+        }
+      }
       return {
         start, exit, update,
         get active() { return G.active; },
+        get musicKey() { return phase === 'station' ? 'station' : SECTORS[sectorIdx].boss ? 'boss' : 'game'; },
         resize() { gCam.aspect = window.innerWidth / window.innerHeight; gCam.updateProjectionMatrix(); },
       };
     })();
@@ -4652,12 +5615,151 @@
       return { update, tryClick, hit };
     })();
 
+
+    /* =====================================================================
+       RADIO DE BORD : musique YouTube à la demande, partout dans l'univers
+       ===================================================================== */
+    function parseYTList(url) { const m = String(url || '').match(/[?&]list=([\w-]+)/); return m ? m[1] : null; }
+    const Radio = (() => {
+      const panel = $('radio'), btn = $('btnRadio'), input = $('rInput'), titleEl = $('rTitle'), errEl = $('rErr'), favsEl = $('rFavs');
+      let player = null, ready = null, active = false, playing = false, current = null, open = false;
+      if (!Array.isArray(settings.radioFavs)) settings.radioFavs = [];
+      if (typeof settings.radioVol !== 'number') settings.radioVol = 0.7;
+      if (typeof settings.radioMute !== 'boolean') settings.radioMute = true;
+      const watchUrl = (c) => (c.list ? `https://www.youtube.com/playlist?list=${c.list}` : `https://www.youtube.com/watch?v=${c.id}`);
+      function ensure() {
+        if (ready) return ready;
+        ready = loadYTAPI().then((YT) => new Promise((resolve) => {
+          const host = el('div');
+          host.id = 'radioHost';
+          host.style.cssText = 'position:fixed;width:2px;height:2px;left:-40px;top:-40px;opacity:0;pointer-events:none';
+          document.body.append(host);
+          player = new YT.Player('radioHost', {
+            width: 2, height: 2,
+            playerVars: { autoplay: 1, controls: 0, playsinline: 1, ...(location.protocol.startsWith('http') ? { origin: location.origin } : {}) },
+            events: {
+              onReady: () => { player.setVolume(Math.round(settings.radioVol * 100)); resolve(player); },
+              onStateChange: onState,
+              onError: onErr,
+            },
+          });
+        }));
+        return ready;
+      }
+      function onState(e) {
+        const S = window.YT.PlayerState;
+        playing = e.data === S.PLAYING;
+        if (playing) {
+          errEl.hidden = true;
+          const d = player.getVideoData && player.getVideoData();
+          if (d && d.title && current) current.title = d.title;
+          if (!active) { active = true; refreshMusic(); }
+        }
+        if (e.data === S.ENDED && current && !current.list) { player.seekTo(0); player.playVideo(); }
+        render();
+      }
+      function onErr() {
+        errEl.hidden = false;
+        errEl.replaceChildren(document.createTextNode('Lecture intégrée impossible (intégration désactivée par l’auteur, ou site ouvert en local). '));
+        const b = el('button', 'btn', 'Ouvrir en mini-fenêtre');
+        b.type = 'button';
+        b.addEventListener('click', () => { if (current) window.open(watchUrl(current), 'radio-argo', 'width=560,height=360'); });
+        errEl.append(b);
+        active = false;
+        playing = false;
+        refreshMusic();
+        render();
+      }
+      async function play(raw) {
+        raw = String(raw || '').trim();
+        const id = parseYT(raw), list = parseYTList(raw);
+        if (!id && !list) {
+          window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(raw || 'PLK')}`, '_blank', 'noopener');
+          toast('Recherche ouverte sur YouTube : copiez le lien d’un titre ou d’une playlist, puis collez-le dans la radio');
+          return;
+        }
+        current = { id, list, url: raw, title: 'Chargement…' };
+        errEl.hidden = true;
+        render();
+        try { await ensure(); } catch { onErr(); return; }
+        if (list) player.loadPlaylist({ list, listType: 'playlist', index: 0 });
+        else player.loadVideoById(id);
+        player.setVolume(Math.round(settings.radioVol * 100));
+        active = true;
+        refreshMusic();
+      }
+      function toggle() {
+        if (!player || !current) { if (input.value.trim()) play(input.value); return; }
+        if (playing) { player.pauseVideo(); active = false; } else { player.playVideo(); active = true; }
+        refreshMusic();
+      }
+      function render() {
+        titleEl.textContent = current ? current.title : 'Aucune musique en cours';
+        $('rPlay').innerHTML = playing ? '<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>';
+        $('rPlay').setAttribute('aria-label', playing ? 'Pause' : 'Lecture');
+        const isFav = current && settings.radioFavs.some((f) => f.url === current.url);
+        $('rFav').classList.toggle('on', !!isFav);
+        btn.classList.toggle('playing', playing);
+        panel.classList.toggle('playing', playing);
+        favsEl.replaceChildren();
+        if (!settings.radioFavs.length) favsEl.append(el('span', 'r-empty', 'Vos favoris apparaîtront ici.'));
+        for (const f of settings.radioFavs) {
+          const chip = el('span', 'r-fav');
+          const b = el('button', null, f.title || f.url);
+          b.type = 'button';
+          b.title = f.url;
+          b.addEventListener('click', () => { input.value = f.url; play(f.url); });
+          const x = el('button', 'x', '×');
+          x.type = 'button';
+          x.setAttribute('aria-label', 'Retirer des favoris');
+          x.addEventListener('click', () => { settings.radioFavs = settings.radioFavs.filter((g) => g !== f); saveSettings(); render(); });
+          chip.append(b, x);
+          favsEl.append(chip);
+        }
+      }
+      function show(v = !open) {
+        open = v;
+        panel.classList.toggle('open', open);
+        document.body.classList.toggle('radio-open', open);
+        if (open) setTimeout(() => input.focus(), 120);
+      }
+      $('rForm').addEventListener('submit', (e) => { e.preventDefault(); play(input.value); });
+      $('rSearch').addEventListener('click', () => {
+        const q = input.value.trim();
+        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(q && !parseYT(q) && !parseYTList(q) ? q : 'PLK')}`, '_blank', 'noopener');
+      });
+      $('rPlay').addEventListener('click', toggle);
+      $('rPrev').addEventListener('click', () => { if (player && current) current.list ? player.previousVideo() : player.seekTo(0); });
+      $('rNext').addEventListener('click', () => { if (player && current && current.list) player.nextVideo(); });
+      $('rFav').addEventListener('click', () => {
+        if (!current) return;
+        const i = settings.radioFavs.findIndex((f) => f.url === current.url);
+        if (i >= 0) settings.radioFavs.splice(i, 1);
+        else settings.radioFavs.unshift({ url: current.url, title: current.title });
+        settings.radioFavs = settings.radioFavs.slice(0, 12);
+        saveSettings();
+        render();
+      });
+      const vol = $('rVol');
+      vol.value = String(settings.radioVol);
+      vol.addEventListener('input', () => { settings.radioVol = Number(vol.value); saveSettings(); if (player && player.setVolume) player.setVolume(Math.round(settings.radioVol * 100)); });
+      const mute = $('rMute');
+      mute.checked = settings.radioMute;
+      mute.addEventListener('change', () => { settings.radioMute = mute.checked; saveSettings(); refreshMusic(); });
+      $('rClose').addEventListener('click', () => show(false));
+      btn.addEventListener('click', () => show());
+      if (location.protocol === 'file:') $('rNote').hidden = false;
+      render();
+      return { show, play, get active() { return active && playing; }, get open() { return open; } };
+    })();
+
     /* =====================================================================
        BRANCHEMENTS : musique, voix, XP selon les événements
        ===================================================================== */
     function galaxyMusicKey(g) { return g.def.custom ? `custom:${g.def.color}` : g.def.id; }
     function musicKeyFor(s) {
-      if (Game.active) return 'game';
+      if (Radio.active && settings.radioMute) return null;
+      if (Game.active) return Game.musicKey;
       if (Quiz.active) return 'quiz';
       if (Focus.running) return 'focus';
       if (s === 'intro' || s === 'loading' || s === 'skipping') return 'intro';
@@ -4694,17 +5796,23 @@
     }
     function onGalaxyCreated() { addXP(80, 'Galaxie créée'); unlock('creator'); }
     let introPrevT = 0;
+    function introLines() {
+      const last = 9.6 + (AIS.length - 1) * 3.1 + 2.0;
+      return [
+        { at: 0.9, mood: 'narrator', text: 'Il était une fois… un univers où le savoir ne dort jamais.' },
+        { at: 5.4, mood: 'epic', text: 'Huit esprits venus d’ailleurs… pour vous faire grandir.' },
+        ...AIS.map((a, i) => ({ at: 9.6 + i * 3.1 - 0.3, mood: 'narrator', text: `${a.name}. ${a.tagline}.` })),
+        { at: last + 1.0, mood: 'epic', text: 'Économie. Mathématiques. Physique. Trois galaxies vous attendent… Votre voyage commence maintenant.' },
+      ];
+    }
     function introAudio(t) {
       const crossed = (x) => introPrevT < x && t >= x;
       if (crossed(0.8)) Sound.titleHit();
-      if (crossed(1.6)) Voice.say("Bienvenue à bord. Je suis ARGO, l'intelligence de bord de ce vaisseau.", { interrupt: true });
       if (crossed(5.3)) Sound.warp(3.6);
-      for (let i = 0; i < AIS.length; i++) {
-        if (crossed(9.6 + i * 3.1 - 0.5)) { Sound.impact(); Sound.shimmer(); Voice.say(`${AIS[i].name}, ${lcFirst(AIS[i].tagline)}.`, { interrupt: true }); }
-      }
+      for (let i = 0; i < AIS.length; i++) if (crossed(9.6 + i * 3.1 - 0.5)) { Sound.impact(); Sound.shimmer(); }
       if (crossed(intro.lastOrb + 0.3)) Sound.riser(3);
-      if (crossed(intro.lastOrb + 1.5)) Voice.say('Trois galaxies thématiques vous attendent. Choisissez votre destination, je vous y emmène.', { interrupt: true });
       if (crossed(intro.lastOrb + 3.4)) Sound.arrive();
+      for (const l of introLines()) if (crossed(l.at)) Voice.say(l.text, { interrupt: true, mood: l.mood, deadline: 2500 });
       introPrevT = t;
     }
 
@@ -4727,6 +5835,7 @@
       else if (e.code === 'KeyT') openToolkit();
       else if (e.code === 'KeyJ') openArcade();
       else if (e.code === 'KeyF') Focus.toggle();
+      else if (e.code === 'KeyM') Radio.show();
     });
     renderXP();
     if (settings.quality !== 'high') applyQuality();
@@ -4752,6 +5861,22 @@
         startIntro();
         if (skip) skipIntro();
       };
+      const tip = $('voiceTip');
+      const renderTip = () => {
+        tip.replaceChildren();
+        if (TTS.enabled) {
+          const s = el('span', null, 'Voix off IA Gemini : préparation…');
+          tip.append(s);
+          Voice.prefetch(introLines(), (d, n) => { s.textContent = `Voix off IA Gemini : préparation ${d}/${n}`; }).then((ok) => {
+            s.replaceChildren();
+            if (ok) s.append(el('b', null, 'Voix off IA prête')); else s.textContent = 'Voix IA indisponible : voix du navigateur utilisée';
+          });
+        } else {
+          tip.append(el('span', null, 'Voix du navigateur active.'), button('Activer la voix IA Gemini', '', openSettings));
+        }
+      };
+      renderTip();
+      window.addEventListener('univers:tts', () => { if (state === 'loading') renderTip(); });
       $('startBtn').addEventListener('click', () => go(false), { once: true });
       $('startSkip').addEventListener('click', () => go(true), { once: true });
       $('startBtn').focus();
