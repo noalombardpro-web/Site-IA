@@ -25,6 +25,7 @@
       width: 100%;
       height: 100%;
       display: block;
+      touch-action: none;
     }
     h1 {
       position: fixed;
@@ -41,10 +42,13 @@
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
+      width: max-content;
+      max-width: calc(100% - 32px);
       margin: 0;
       color: var(--muted);
       font-size: 13px;
-      white-space: nowrap;
+      line-height: 1.6;
+      text-align: center;
       pointer-events: none;
     }
     #badge {
@@ -108,17 +112,25 @@
 <body>
   <canvas id="scene"></canvas>
   <h1>Univers des IA</h1>
-  <p class="hint">Survolez une sphère pour la révéler, cliquez pour ouvrir l'IA</p>
+  <p class="hint">
+    Glissez pour tourner · Molette pour zoomer · WASD ou flèches pour vous déplacer · Maintenez une sphère pour la déplacer · R pour revenir
+  </p>
   <div id="badge"><svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
   <div id="label"></div>
   <nav id="links" class="sr-only" aria-label="Liste des IA"></nav>
 
   <script type="importmap">
-    { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
   </script>
 
   <script type="module">
     import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
     /* ---------- Données des IA ---------- */
     const AIS = [
@@ -282,8 +294,18 @@
     scene.background = new THREE.Color(0x05060a);
     scene.fog = new THREE.FogExp2(0x05060a, 0.02);
 
-    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
-    camera.position.z = 22;
+    const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
+    const HOME_Z = () => (camera.aspect < 0.9 ? 30 : 22);
+    camera.position.set(0, 0, HOME_Z());
+
+    // Navigation : tourner, zoomer, glisser la vue
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 3;
+    controls.maxDistance = 80;
+    controls.target.set(0, 0, 0);
+    controls.update();
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.8));
     const sun = new THREE.DirectionalLight(0xffffff, 1.2);
@@ -293,9 +315,9 @@
     rimLight.position.set(-10, -6, -6);
     scene.add(rimLight);
 
-    // Étoiles en arrière-plan
-    const starPos = new Float32Array(1500 * 3);
-    for (let i = 0; i < starPos.length; i++) starPos[i] = (Math.random() - 0.5) * 140;
+    // Étoiles : l'espace est plus grand pour pouvoir s'y balader
+    const starPos = new Float32Array(2500 * 3);
+    for (let i = 0; i < starPos.length; i++) starPos[i] = (Math.random() - 0.5) * 400;
     const starGeo = new THREE.BufferGeometry();
     starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
     scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({
@@ -370,7 +392,7 @@
       linkList.appendChild(a);
     }
 
-    /* ---------- Interaction ---------- */
+    /* ---------- Sélection ---------- */
     const raycaster = new THREE.Raycaster();
     const ndc = new THREE.Vector2();
     const meshes = items.map((it) => it.mesh);
@@ -385,15 +407,126 @@
       return hit ? itemByMesh.get(hit.object) : null;
     }
 
-    window.addEventListener('pointermove', (e) => { pointer = { x: e.clientX, y: e.clientY }; });
-    window.addEventListener('pointerdown', (e) => { pointer = { x: e.clientX, y: e.clientY }; });
-    window.addEventListener('pointerup', (e) => { if (e.pointerType === 'touch') pointer = null; });
+    /* ---------- Déplacer une sphère : maintenir appuyé puis glisser ---------- */
+    const LONG_PRESS_MS = 350;
+    const MOVE_TOLERANCE = 8;
+    let pressStart = null;   // position du début d'appui
+    let pressTimer = 0;      // délai avant de « saisir » la sphère
+    let grabbed = null;      // sphère en cours de déplacement
+    let skipClick = false;   // évite d'ouvrir un lien après un glisser ou un déplacement
+
+    const grabPlane = new THREE.Plane();
+    const grabOffset = new THREE.Vector3();
+    const grabWorld = new THREE.Vector3();
+    const hitPoint = new THREE.Vector3();
+    const camDir = new THREE.Vector3();
+
+    function rayToGrabPlane(clientX, clientY, out) {
+      ndc.set((clientX / window.innerWidth) * 2 - 1, -(clientY / window.innerHeight) * 2 + 1);
+      raycaster.setFromCamera(ndc, camera);
+      return raycaster.ray.intersectPlane(grabPlane, out);
+    }
+
+    function startGrab(it, clientX, clientY) {
+      it.mesh.getWorldPosition(tmp);
+      camera.getWorldDirection(camDir);
+      // Plan face à la caméra, passant par le centre de la sphère
+      grabPlane.setFromNormalAndCoplanarPoint(camDir, tmp);
+      if (rayToGrabPlane(clientX, clientY, hitPoint)) grabOffset.copy(tmp).sub(hitPoint);
+      else grabOffset.set(0, 0, 0);
+      grabWorld.copy(tmp);
+      grabbed = it;
+      controls.enabled = false; // bloque la rotation de la vue pendant le déplacement
+      skipClick = true;
+    }
+
+    function cancelPress() {
+      clearTimeout(pressTimer);
+      pressTimer = 0;
+    }
+
+    canvas.addEventListener('pointerdown', (e) => {
+      skipClick = false;
+      if (e.button !== 0) return;
+      pressStart = { x: e.clientX, y: e.clientY };
+      const it = pick(e.clientX, e.clientY);
+      if (!it) return;
+      cancelPress();
+      pressTimer = setTimeout(() => startGrab(it, pressStart.x, pressStart.y), LONG_PRESS_MS);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      pointer = { x: e.clientX, y: e.clientY };
+      if (grabbed) {
+        if (rayToGrabPlane(e.clientX, e.clientY, hitPoint)) grabWorld.copy(hitPoint).add(grabOffset);
+        return;
+      }
+      if (pressStart && Math.hypot(e.clientX - pressStart.x, e.clientY - pressStart.y) > MOVE_TOLERANCE) {
+        cancelPress(); // c'est un glisser de vue, pas un maintien
+      }
+    });
+
+    function endPointer(e) {
+      const moved = pressStart ? Math.hypot(e.clientX - pressStart.x, e.clientY - pressStart.y) : 0;
+      cancelPress();
+      if (grabbed) {
+        grabbed = null;
+        controls.enabled = true;
+        skipClick = true;
+      } else if (moved > MOVE_TOLERANCE) {
+        skipClick = true;
+      }
+      pressStart = null;
+      if (e.pointerType === 'touch') pointer = null;
+    }
+    window.addEventListener('pointerup', endPointer);
+    window.addEventListener('pointercancel', endPointer);
     window.addEventListener('mouseout', (e) => { if (!e.relatedTarget) pointer = null; });
 
     canvas.addEventListener('click', (e) => {
+      if (skipClick) return;
       const it = pick(e.clientX, e.clientY);
       if (it) window.open(it.url, '_blank', 'noopener,noreferrer');
     });
+
+    /* ---------- Clavier : se balader + revenir à la vue de départ ---------- */
+    const keys = new Set();
+    const UP = new THREE.Vector3(0, 1, 0);
+    const fwd = new THREE.Vector3();
+    const side = new THREE.Vector3();
+    const step = new THREE.Vector3();
+
+    window.addEventListener('keydown', (e) => {
+      keys.add(e.code);
+      if (e.code === 'KeyR') resetView();
+    });
+    window.addEventListener('keyup', (e) => keys.delete(e.code));
+    window.addEventListener('blur', () => keys.clear());
+
+    function resetView() {
+      controls.target.set(0, 0, 0);
+      camera.position.set(0, 0, HOME_Z());
+    }
+
+    function flyCamera(dt) {
+      let f = 0, s = 0, v = 0;
+      if (keys.has('KeyW') || keys.has('ArrowUp')) f += 1;
+      if (keys.has('KeyS') || keys.has('ArrowDown')) f -= 1;
+      if (keys.has('KeyD') || keys.has('ArrowRight')) s += 1;
+      if (keys.has('KeyA') || keys.has('ArrowLeft')) s -= 1;
+      if (keys.has('Space') || keys.has('KeyE')) v += 1;
+      if (keys.has('KeyQ')) v -= 1;
+      if (f === 0 && s === 0 && v === 0) return;
+
+      camera.getWorldDirection(fwd);
+      side.crossVectors(fwd, UP).normalize();
+      step.set(0, 0, 0).addScaledVector(fwd, f).addScaledVector(side, s).addScaledVector(UP, v);
+      if (step.lengthSq() === 0) return;
+      const speed = keys.has('ShiftLeft') || keys.has('ShiftRight') ? 24 : 12;
+      step.normalize().multiplyScalar(speed * dt);
+      camera.position.add(step);
+      controls.target.add(step);
+    }
 
     /* ---------- Badge lumineux + nom ---------- */
     const tmp = new THREE.Vector3();
@@ -426,11 +559,8 @@
 
     /* ---------- Redimensionnement ---------- */
     function onResize() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.position.z = camera.aspect < 0.9 ? 30 : 22;
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
     }
     window.addEventListener('resize', onResize);
@@ -446,7 +576,14 @@
       last = now;
       t += dt;
 
+      flyCamera(dt);
+      controls.update();
+
       root.rotation.y += dt * 0.04;
+      scene.updateMatrixWorld();
+
+      // La sphère saisie suit le pointeur dans l'espace
+      if (grabbed) grabbed.base.copy(root.worldToLocal(tmp.copy(grabWorld)));
 
       for (const it of items) {
         it.pivot.position.set(
@@ -457,18 +594,18 @@
       }
 
       scene.updateMatrixWorld();
-      hovered = pointer ? pick(pointer.x, pointer.y) : null;
+      hovered = grabbed || (pointer ? pick(pointer.x, pointer.y) : null);
 
       for (const it of items) {
-        const target = it === hovered ? 1 : 0;
-        it.hover += (target - it.hover) * Math.min(1, dt * 8);
+        const active = it === hovered || it === grabbed;
+        it.hover += ((active ? 1 : 0) - it.hover) * Math.min(1, dt * 8);
         it.mesh.rotation.y += dt * (0.25 + it.hover * 0.9);
         it.mesh.rotation.x = Math.sin(t * 0.4 + it.ph) * 0.15;
         it.pivot.scale.setScalar(1 + it.hover * 0.2);
         it.glow.material.opacity = it.hover * 0.8;
       }
 
-      canvas.style.cursor = hovered ? 'pointer' : 'default';
+      canvas.style.cursor = grabbed ? 'grabbing' : hovered ? 'pointer' : 'default';
       if (hovered) showOverlay(hovered);
       else hideOverlay();
 
